@@ -55,10 +55,10 @@
 
         <!-- Direct CTA Buttons -->
         <div class="d-flex flex-wrap gap-2 pt-2">
-          <a href="{{ url_for('report_item') if url_for is defined else 'report-item.html' }}?type=Lost" class="btn btn-danger px-4 py-2 fw-semibold shadow-sm">
+          <a href="{{ url_for('report_item_page') if url_for is defined else 'report-item.html' }}?type=Lost" class="btn btn-danger px-4 py-2 fw-semibold shadow-sm">
             <i class="bi bi-exclamation-triangle-fill me-2"></i> Report Lost Item
           </a>
-          <a href="{{ url_for('report_item') if url_for is defined else 'report-item.html' }}?type=Found" class="btn btn-success px-4 py-2 fw-semibold shadow-sm">
+          <a href="{{ url_for('report_item_page') if url_for is defined else 'report-item.html' }}?type=Found" class="btn btn-success px-4 py-2 fw-semibold shadow-sm">
             <i class="bi bi-check-circle-fill me-2"></i> Report Found Item
           </a>
         </div>

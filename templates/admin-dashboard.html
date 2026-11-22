@@ -1,234 +1,734 @@
+
 {% extends "base.html" %}
 
 {% block title %}Admin Dashboard - FindIt Campus Lost & Found{% endblock %}
 
 {% block content %}
+
 <div class="container py-4">
-  <!-- Page Header -->
-  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-    <div>
-      <div class="d-flex align-items-center gap-2">
-        <h2 class="fw-bold mb-0">Campus Admin Dashboard</h2>
-        <span class="badge bg-danger-subtle text-danger border border-danger-subtle">Security Office</span>
-      </div>
-      <p class="text-muted mb-0">Review reports, inspect claimant proof, and manage custody status.</p>
-    </div>
 
-    <div class="d-flex gap-2">
-      <a href="{{ url_for('report_item') if url_for is defined else 'report-item.html' }}" class="btn btn-primary btn-sm">
-        <i class="bi bi-plus-circle me-1"></i> Add Direct Report
-      </a>
-      <button class="btn btn-outline-secondary btn-sm" onclick="window.print()">
-        <i class="bi bi-printer me-1"></i> Print Log
-      </button>
-    </div>
-  </div>
-
-  <!-- Metric Overview Cards -->
-  <div class="row g-3 mb-4">
-    <div class="col-sm-6 col-lg-3">
-      <div class="stat-widget">
-        <div class="stat-icon bg-primary-subtle text-primary">
-          <i class="bi bi-collection"></i>
-        </div>
+    <!-- PAGE HEADER -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
-          <h4 class="fw-bold mb-0 text-dark">113</h4>
-          <span class="small text-muted">Total Reports</span>
+            <div class="d-flex align-items-center gap-2">
+                <h2 class="fw-bold mb-0">Campus Admin Dashboard</h2>
+                <span class="badge bg-danger-subtle text-danger border border-danger-subtle">
+                    Security Office
+                </span>
+            </div>
+            <p class="text-muted mb-0">
+                Review reports, inspect claimant proof, and manage custody status.
+            </p>
         </div>
-      </div>
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary btn-sm"
+                    onclick="window.print()">
+                <i class="bi bi-printer me-1"></i> Print Log
+            </button>
+        </div>
     </div>
 
-    <div class="col-sm-6 col-lg-3">
-      <div class="stat-widget">
-        <div class="stat-icon bg-danger-subtle text-danger">
-          <i class="bi bi-question-diamond"></i>
+
+    <!-- DASHBOARD STATISTICS -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="stat-widget">
+                <div class="stat-icon bg-primary-subtle text-primary">
+                    <i class="bi bi-collection"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-0 text-dark" id="totalReports">0</h4>
+                    <span class="small text-muted">Total Reports</span>
+                </div>
+            </div>
         </div>
-        <div>
-          <h4 class="fw-bold mb-0 text-dark">48</h4>
-          <span class="small text-muted">Active Lost Items</span>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="stat-widget">
+                <div class="stat-icon bg-danger-subtle text-danger">
+                    <i class="bi bi-question-diamond"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-0 text-dark" id="activeLostItems">0</h4>
+                    <span class="small text-muted">Active Lost Items</span>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="stat-widget">
+                <div class="stat-icon bg-success-subtle text-success">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-0 text-dark" id="foundInCustody">0</h4>
+                    <span class="small text-muted">Found in Custody</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="stat-widget">
+                <div class="stat-icon bg-warning-subtle text-warning">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-0 text-dark" id="pendingClaims">0</h4>
+                    <span class="small text-muted">Pending Claims</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="col-sm-6 col-lg-3">
-      <div class="stat-widget">
-        <div class="stat-icon bg-success-subtle text-success">
-          <i class="bi bi-shield-check"></i>
-        </div>
-        <div>
-          <h4 class="fw-bold mb-0 text-dark">65</h4>
-          <span class="small text-muted">Found in Custody</span>
-        </div>
-      </div>
-    </div>
 
-    <div class="col-sm-6 col-lg-3">
-      <div class="stat-widget">
-        <div class="stat-icon bg-warning-subtle text-warning">
-          <i class="bi bi-hourglass-split"></i>
-        </div>
-        <div>
-          <h4 class="fw-bold mb-0 text-dark">12</h4>
-          <span class="small text-muted">Pending Claims</span>
-        </div>
-      </div>
-    </div>
-  </div>
+    <!-- ADMIN TABS -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
 
-  <!-- Tabbed Interface for Clean Administration -->
-  <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
-    <div class="card-header bg-white border-bottom p-0">
-      <ul class="nav nav-tabs border-0 px-3 pt-2" id="adminTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active fw-semibold" id="items-tab" data-bs-toggle="tab" data-bs-target="#items-pane" type="button" role="tab">
-            <i class="bi bi-card-list me-1"></i> Reported Items
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link fw-semibold" id="claims-tab" data-bs-toggle="tab" data-bs-target="#claims-pane" type="button" role="tab">
-            <i class="bi bi-person-check me-1"></i> Pending Claims Verification
-            <span class="badge bg-warning text-dark ms-1">12</span>
-          </button>
-        </li>
-      </ul>
-    </div>
+        <div class="card-header bg-white border-bottom p-0">
+            <ul class="nav nav-tabs border-0 px-3 pt-2"
+                id="adminTab"
+                role="tablist">
 
-    <div class="tab-content p-4" id="adminTabContent">
-      <!-- Tab 1: Reported Items Management -->
-      <div class="tab-pane fade show active" id="items-pane" role="tabpanel">
-        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-          <h5 class="fw-bold mb-0 text-dark">All Reported Items</h5>
-          <div class="d-flex gap-2">
-            <input type="text" class="form-control form-control-sm" placeholder="Quick search..." style="width: 200px;">
-            <select class="form-select form-select-sm" style="width: 140px;">
-              <option value="">All Categories</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Documents / ID Cards">Documents / ID Cards</option>
-              <option value="Keys">Keys</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Item Name</th>
-                <th scope="col">Type</th>
-                <th scope="col">Category</th>
-                <th scope="col">Location</th>
-                <th scope="col">Date</th>
-                <th scope="col">Status</th>
-                <th scope="col" class="text-end">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>#101</strong></td>
-                <td>AirPods Pro (2nd Gen)</td>
-                <td><span class="badge-lost">Lost</span></td>
-                <td><span class="category-pill">Electronics</span></td>
-                <td class="small text-muted">Library 2nd Floor</td>
-                <td class="small text-muted">2026-11-20</td>
-                <td><span class="badge bg-warning text-dark">Open</span></td>
-                <td class="text-end">
-                  <button class="btn btn-sm btn-outline-success" title="Mark as Resolved">
-                    <i class="bi bi-check-lg"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger" title="Archive / Delete">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td><strong>#102</strong></td>
-                <td>Student ID Card &amp; Metro Pass</td>
-                <td><span class="badge-found">Found</span></td>
-                <td><span class="category-pill">Documents / ID Cards</span></td>
-                <td class="small text-muted">Cafeteria Counter 3</td>
-                <td class="small text-muted">2026-11-21</td>
-                <td><span class="badge bg-primary">In Locker</span></td>
-                <td class="text-end">
-                  <button class="btn btn-sm btn-outline-success" title="Mark as Resolved">
-                    <i class="bi bi-check-lg"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger" title="Archive / Delete">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td><strong>#103</strong></td>
-                <td>Honda Bike Key on Lanyard</td>
-                <td><span class="badge-lost">Lost</span></td>
-                <td><span class="category-pill">Keys</span></td>
-                <td class="small text-muted">Parking Sector 2</td>
-                <td class="small text-muted">2026-11-21</td>
-                <td><span class="badge bg-warning text-dark">Open</span></td>
-                <td class="text-end">
-                  <button class="btn btn-sm btn-outline-success" title="Mark as Resolved">
-                    <i class="bi bi-check-lg"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger" title="Archive / Delete">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Tab 2: Claims Verification Queue -->
-      <div class="tab-pane fade" id="claims-pane" role="tabpanel">
-        <h5 class="fw-bold mb-3 text-dark">Claims Awaiting Verification</h5>
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th scope="col">Claimant</th>
-                <th scope="col">Claimed Item</th>
-                <th scope="col">Submitted Proof (claim_message)</th>
-                <th scope="col">Date Filed</th>
-                <th scope="col" class="text-end">Decision</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div class="fw-bold text-dark">Aarav Sharma</div>
-                  <div class="small text-muted">aarav.cs24@college.edu</div>
-                  <div class="small text-muted">+91 98765 43210</div>
-                </td>
-                <td>
-                  <div class="fw-semibold">AirPods Pro (2nd Gen)</div>
-                  <span class="category-pill">Electronics</span>
-                </td>
-                <td>
-                  <p class="small text-muted mb-0 bg-light p-2 rounded" style="max-width: 320px;">
-                    "Serial number on box is H4998K. Left earbud has tiny scratch near contact pin. Can present original Amazon invoice."
-                  </p>
-                </td>
-                <td class="small text-muted">Nov 21, 2026</td>
-                <td class="text-end">
-                  <div class="btn-group btn-group-sm">
-                    <button class="btn btn-success" title="Approve Claim">
-                      <i class="bi bi-check-circle me-1"></i> Approve
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active fw-semibold"
+                            id="items-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#items-pane"
+                            type="button"
+                            role="tab">
+                        <i class="bi bi-card-list me-1"></i>
+                        Reported Items
                     </button>
-                    <button class="btn btn-outline-danger" title="Reject Claim">
-                      <i class="bi bi-x-circle me-1"></i> Reject
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fw-semibold"
+                            id="claims-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#claims-pane"
+                            type="button"
+                            role="tab">
+                        <i class="bi bi-person-check me-1"></i>
+                        Pending Claims Verification
+                        <span class="badge bg-warning text-dark ms-1"
+                              id="pendingClaimsBadge">0</span>
                     </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </li>
+
+            </ul>
         </div>
-      </div>
+
+
+        <div class="tab-content p-4" id="adminTabContent">
+
+            <!-- REPORTED ITEMS -->
+            <div class="tab-pane fade show active"
+                 id="items-pane"
+                 role="tabpanel">
+
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+
+                    <h5 class="fw-bold mb-0 text-dark">
+                        All Reported Items
+                    </h5>
+
+                    <div class="d-flex gap-2 flex-wrap">
+
+                        <input type="text"
+                               id="adminItemSearch"
+                               class="form-control form-control-sm"
+                               placeholder="Quick search..."
+                               style="width: 200px;">
+
+                        <select id="adminCategoryFilter"
+                                class="form-select form-select-sm"
+                                style="width: 180px;">
+                            <option value="">All Categories</option>
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Item Name</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Location</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="reportedItemsBody">
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    Loading reported items...
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+
+            <!-- PENDING CLAIMS -->
+            <div class="tab-pane fade"
+                 id="claims-pane"
+                 role="tabpanel">
+
+                <h5 class="fw-bold mb-3 text-dark">
+                    Claims Awaiting Verification
+                </h5>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th>Claimant</th>
+                                <th>Claimed Item</th>
+                                <th>Submitted Proof (claim_message)</th>
+                                <th>Date Filed</th>
+                                <th class="text-end">Decision</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="pendingClaimsBody">
+                            <tr>
+                                <td colspan="5" class="text-center py-4">
+                                    Loading pending claims...
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
     </div>
-  </div>
+
 </div>
+
+
+<!-- ADMIN DASHBOARD JAVASCRIPT -->
+<script>
+
+// Safely display database values inside HTML
+function escapeHTML(value) {
+    return String(value ?? '').replace(/[&<>"']/g, function(char) {
+        return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[char];
+    });
+}
+
+
+// COMMON API REQUEST FUNCTION
+async function apiRequest(url, options = {}) {
+
+    const response = await fetch(url, {
+        credentials: 'same-origin',
+        ...options
+    });
+
+    let data;
+
+    try {
+        data = await response.json();
+    } catch {
+        throw new Error('Invalid server response. Please try again.');
+    }
+
+    if (!response.ok || !data.success) {
+        throw new Error(data.message || 'Something went wrong.');
+    }
+
+    return data;
+}
+
+
+// LOAD DASHBOARD STATISTICS
+async function loadAdminStats() {
+
+    try {
+
+        const data = await apiRequest('/api/admin/stats');
+
+        document.getElementById('totalReports').textContent =
+            data.total_reports;
+
+        document.getElementById('activeLostItems').textContent =
+            data.active_lost_items;
+
+        document.getElementById('foundInCustody').textContent =
+            data.found_in_custody;
+
+        document.getElementById('pendingClaims').textContent =
+            data.pending_claims;
+
+        document.getElementById('pendingClaimsBadge').textContent =
+            data.pending_claims;
+
+    } catch (error) {
+        console.error('Statistics error:', error);
+    }
+}
+
+
+// LOAD CATEGORY OPTIONS FROM DATABASE
+async function loadCategories() {
+
+    try {
+
+        const data = await apiRequest('/api/admin/items');
+
+        const categories = [
+            ...new Set(
+                data.items
+                    .map(item => item.category)
+                    .filter(Boolean)
+            )
+        ].sort();
+
+        const select = document.getElementById('adminCategoryFilter');
+        const selectedValue = select.value;
+
+        select.innerHTML = '<option value="">All Categories</option>';
+
+        categories.forEach(category => {
+
+            const option = document.createElement('option');
+
+            option.value = category;
+            option.textContent = category;
+
+            select.appendChild(option);
+
+        });
+
+        select.value = categories.includes(selectedValue)
+            ? selectedValue
+            : '';
+
+    } catch (error) {
+        console.error('Category loading error:', error);
+    }
+}
+
+
+// LOAD REPORTED ITEMS
+async function loadReportedItems() {
+
+    const tbody = document.getElementById('reportedItemsBody');
+
+    const search = document.getElementById('adminItemSearch').value.trim();
+
+    const category = document.getElementById('adminCategoryFilter').value;
+
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="8" class="text-center py-4">
+                Loading items...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const params = new URLSearchParams();
+
+        if (search) {
+            params.append('search', search);
+        }
+
+        if (category) {
+            params.append('category', category);
+        }
+
+        const data = await apiRequest(
+            '/api/admin/items?' + params.toString()
+        );
+
+        if (!data.items || data.items.length === 0) {
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="text-center text-muted py-4">
+                        No reported items found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        tbody.innerHTML = data.items.map(item => {
+
+            const typeClass = item.item_type === 'Lost'
+                ? 'badge-lost'
+                : 'badge-found';
+
+            const statusBadge = item.status === 'Resolved'
+                ? '<span class="badge bg-success">Resolved</span>'
+                : '<span class="badge bg-warning text-dark">Active</span>';
+
+            const resolveButton = item.status === 'Resolved'
+                ? ''
+                : `
+                    <button class="btn btn-sm btn-outline-success"
+                            data-action="resolve"
+                            data-id="${Number(item.item_id)}"
+                            title="Mark as Resolved">
+                        <i class="bi bi-check-lg"></i>
+                    </button>
+                `;
+
+            return `
+                <tr>
+                    <td>
+                        <strong>#${escapeHTML(item.item_id)}</strong>
+                    </td>
+
+                    <td>${escapeHTML(item.item_name)}</td>
+
+                    <td>
+                        <span class="${typeClass}">
+                            ${escapeHTML(item.item_type)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="category-pill">
+                            ${escapeHTML(item.category)}
+                        </span>
+                    </td>
+
+                    <td class="small text-muted">
+                        ${escapeHTML(item.location)}
+                    </td>
+
+                    <td class="small text-muted">
+                        ${escapeHTML(item.date_lost_found)}
+                    </td>
+
+                    <td>${statusBadge}</td>
+
+                    <td class="text-end text-nowrap">
+                        ${resolveButton}
+
+                        <button class="btn btn-sm btn-outline-danger"
+                                data-action="delete"
+                                data-id="${Number(item.item_id)}"
+                                title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+
+        }).join('');
+
+    } catch (error) {
+
+        console.error('Items loading error:', error);
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" class="text-center text-danger py-4">
+                    ${escapeHTML(error.message)}
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+// LOAD PENDING CLAIMS
+async function loadPendingClaims() {
+
+    const tbody = document.getElementById('pendingClaimsBody');
+
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="5" class="text-center py-4">
+                Loading claims...
+            </td>
+        </tr>
+    `;
+
+    try {
+
+        const data = await apiRequest('/api/admin/claims');
+
+        if (!data.claims || data.claims.length === 0) {
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        No pending claims available.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        tbody.innerHTML = data.claims.map(claim => {
+
+            return `
+                <tr>
+
+                    <td>
+                        <div class="fw-bold text-dark">
+                            ${escapeHTML(claim.claimant_name)}
+                        </div>
+
+                        <div class="small text-muted">
+                            ${escapeHTML(claim.claimant_email)}
+                        </div>
+
+                        <div class="small text-muted">
+                            ${escapeHTML(claim.claimant_phone)}
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="fw-semibold">
+                            ${escapeHTML(claim.item_name)}
+                        </div>
+
+                        <span class="category-pill">
+                            ${escapeHTML(claim.category)}
+                        </span>
+                    </td>
+
+                    <td>
+                        <p class="small text-muted mb-0 bg-light p-2 rounded"
+                           style="max-width: 320px; white-space: pre-wrap;">
+                            ${escapeHTML(claim.claim_message)}
+                        </p>
+                    </td>
+
+                    <td class="small text-muted">
+                        ${escapeHTML(claim.created_at)}
+                    </td>
+
+                    <td class="text-end text-nowrap">
+
+                        <div class="btn-group btn-group-sm">
+
+                            <button class="btn btn-success"
+                                    data-claim-action="approved"
+                                    data-id="${Number(claim.claim_id)}">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Approve
+                            </button>
+
+                            <button class="btn btn-outline-danger"
+                                    data-claim-action="rejected"
+                                    data-id="${Number(claim.claim_id)}">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Reject
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+            `;
+
+        }).join('');
+
+    } catch (error) {
+
+        console.error('Claims loading error:', error);
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center text-danger py-4">
+                    ${escapeHTML(error.message)}
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+// REFRESH ALL DASHBOARD DATA
+async function refreshDashboard() {
+
+    await Promise.all([
+        loadAdminStats(),
+        loadReportedItems(),
+        loadPendingClaims()
+    ]);
+
+}
+
+
+// SEARCH ITEMS
+document.getElementById('adminItemSearch')
+    .addEventListener('input', loadReportedItems);
+
+
+// CATEGORY FILTER
+document.getElementById('adminCategoryFilter')
+    .addEventListener('change', loadReportedItems);
+
+
+// RESOLVE AND DELETE ITEM ACTIONS
+document.getElementById('reportedItemsBody')
+    .addEventListener('click', async function(event) {
+
+        const button = event.target.closest('button[data-action]');
+
+        if (!button) return;
+
+        const itemId = button.dataset.id;
+        const action = button.dataset.action;
+
+        if (action === 'resolve') {
+
+            if (!confirm('Are you sure you want to mark this item as resolved?')) {
+                return;
+            }
+
+            try {
+
+                button.disabled = true;
+
+                const data = await apiRequest(
+                    `/api/admin/items/${itemId}/resolve`,
+                    { method: 'POST' }
+                );
+
+                alert(data.message);
+
+                await refreshDashboard();
+
+            } catch (error) {
+
+                alert(error.message);
+                button.disabled = false;
+
+            }
+        }
+
+
+        if (action === 'delete') {
+
+            if (!confirm(
+                'Are you sure you want to delete this item? Its associated claims will also be deleted.'
+            )) {
+                return;
+            }
+
+            try {
+
+                button.disabled = true;
+
+                const data = await apiRequest(
+                    `/api/admin/items/${itemId}`,
+                    { method: 'DELETE' }
+                );
+
+                alert(data.message);
+
+                await refreshDashboard();
+                await loadCategories();
+
+            } catch (error) {
+
+                alert(error.message);
+                button.disabled = false;
+
+            }
+        }
+
+    });
+
+
+// APPROVE AND REJECT CLAIM ACTIONS
+document.getElementById('pendingClaimsBody')
+    .addEventListener('click', async function(event) {
+
+        const button = event.target.closest('button[data-claim-action]');
+
+        if (!button) return;
+
+        const claimId = button.dataset.id;
+        const decision = button.dataset.claimAction;
+
+        const confirmation = decision === 'approved'
+            ? 'Approve this claim? The associated item will be marked as resolved.'
+            : 'Reject this claim?';
+
+        if (!confirm(confirmation)) {
+            return;
+        }
+
+        try {
+
+            button.disabled = true;
+
+            const data = await apiRequest(
+                `/api/admin/claims/${claimId}/decision`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        decision: decision
+                    })
+                }
+            );
+
+            alert(data.message);
+
+            await refreshDashboard();
+
+        } catch (error) {
+
+            alert(error.message);
+            button.disabled = false;
+
+        }
+
+    });
+
+
+// INITIALIZE DASHBOARD
+document.addEventListener('DOMContentLoaded', async function() {
+
+    await loadCategories();
+
+    await refreshDashboard();
+
+});
+
+</script>
+
 {% endblock %}
