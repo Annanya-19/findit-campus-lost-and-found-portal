@@ -216,31 +216,59 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================================================================
   // 4. Form Submit Guard
   // =========================================================================
-  registerForm.addEventListener("submit", (e) => {
-    const isNameValid = validateFullName();
-    const isEmailValid = validateEmail();
-    const isPhoneValid = validatePhone();
-    const isPasswordValid = validatePassword();
-    const isConfirmValid = validateConfirmPassword();
-    const isTermsValid = validateTerms();
+ 
+  // =========================================================================
+  // 4. Form Validation and API Submission
+  // =========================================================================
+  
+registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
     const isFormValid =
-      isNameValid &&
-      isEmailValid &&
-      isPhoneValid &&
-      isPasswordValid &&
-      isConfirmValid &&
-      isTermsValid;
+        validateFullName() &&
+        validateEmail() &&
+        validatePhone() &&
+        validatePassword() &&
+        validateConfirmPassword() &&
+        validateTerms();
 
     if (!isFormValid) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      // Focus first invalid input element for good UX
-      const firstInvalid = registerForm.querySelector(".is-invalid");
-      if (firstInvalid) {
-        firstInvalid.focus();
-      }
+        const firstInvalid = registerForm.querySelector(".is-invalid");
+        if (firstInvalid) firstInvalid.focus();
+        return;
     }
-  });
+
+    const submitBtn = document.getElementById("registerSubmitBtn");
+    const originalText = submitBtn.innerHTML;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Creating account...";
+
+    try {
+        const formData = new FormData(registerForm);
+
+        const response = await fetch("/api/register", {
+            method: "POST",
+            body: formData,
+            credentials: "same-origin"
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert("Registration successful! Please log in.");
+            window.location.href = "/login";
+        } else {
+            alert(result.message || "Registration failed. Please try again.");
+        }
+
+    } catch (error) {
+        alert("Unable to connect to the server. Please try again.");
+        console.error(error);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    }
+});
+
 });

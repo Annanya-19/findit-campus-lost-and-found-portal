@@ -13,7 +13,7 @@
       <h2 class="fw-bold mb-1 text-dark">Browse Campus Items</h2>
       <p class="text-muted mb-0">Search, filter, and discover reported lost and found belongings across college grounds.</p>
     </div>
-    <a href="{{ url_for('report_item') if url_for is defined else 'report-item.html' }}" class="btn btn-primary btn-sm px-3 shadow-sm">
+    <a href="{{ url_for('report_item_page') if url_for is defined else 'report-item.html' }}" class="btn btn-primary btn-sm px-3 shadow-sm">
       <i class="bi bi-plus-circle me-1"></i> Report an Item
     </a>
   </div>
@@ -114,200 +114,9 @@
        Items Responsive Grid Layout
        ======================================================================= -->
   <div class="row g-4" id="itemsGrid">
+</div>
     
-    <!-- Item Card 1 (Lost) -->
-    <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Lost" data-category="Electronics" data-location="Library" data-date="2026-11-20">
-      <div class="item-card">
-        <div class="item-card-img-wrapper">
-          <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="AirPods Pro">
-          <div class="item-card-badge-overlay">
-            <span class="badge-lost"><i class="bi bi-question-circle me-1"></i> Lost</span>
-          </div>
-        </div>
-        <div class="item-card-body">
-          <span class="category-pill mb-2 align-self-start">Electronics</span>
-          <h5 class="item-card-title">AirPods Pro (2nd Gen)</h5>
-          <p class="item-card-desc">White charging case with a small Pikachu sticker on the back. Left pod is slightly scratched.</p>
-          <div class="item-card-meta">
-            <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Central Library 2nd Floor</div>
-            <div class="d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-calendar3 me-1"></i> Nov 20, 2026</span>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=1" class="btn btn-sm btn-outline-primary py-0">View Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Item Card 2 (Found) -->
-    <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Found" data-category="Documents / ID Cards" data-location="Cafeteria" data-date="2026-11-21">
-      <div class="item-card">
-        <div class="item-card-img-wrapper">
-          <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Student ID Card">
-          <div class="item-card-badge-overlay">
-            <span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found</span>
-          </div>
-        </div>
-        <div class="item-card-body">
-          <span class="category-pill mb-2 align-self-start">Documents / ID Cards</span>
-          <h5 class="item-card-title">Student ID Card &amp; Metro Pass</h5>
-          <p class="item-card-desc">College ID Card belonging to CS Department along with a blue metro smart card inside a transparent holder.</p>
-          <div class="item-card-meta">
-            <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Cafeteria Counter 3</div>
-            <div class="d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-calendar3 me-1"></i> Nov 21, 2026</span>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=2" class="btn btn-sm btn-outline-primary py-0">View Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Item Card 3 (Lost) -->
-    <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Lost" data-category="Bags" data-location="Auditorium" data-date="2026-11-19">
-      <div class="item-card">
-        <div class="item-card-img-wrapper">
-          <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Backpack">
-          <div class="item-card-badge-overlay">
-            <span class="badge-lost"><i class="bi bi-question-circle me-1"></i> Lost</span>
-          </div>
-        </div>
-        <div class="item-card-body">
-          <span class="category-pill mb-2 align-self-start">Bags</span>
-          <h5 class="item-card-title">Black Wildcraft Laptop Backpack</h5>
-          <p class="item-card-desc">Contains notebooks, a blue pencil pouch, and a water bottle in the side pocket. Left at seating area.</p>
-          <div class="item-card-meta">
-            <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Auditorium Main Lobby</div>
-            <div class="d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-calendar3 me-1"></i> Nov 19, 2026</span>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=3" class="btn btn-sm btn-outline-primary py-0">View Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Item Card 4 (Found) -->
-    <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Found" data-category="Clothing" data-location="Sports" data-date="2026-11-21">
-      <div class="item-card">
-        <div class="item-card-img-wrapper">
-          <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Hoodie">
-          <div class="item-card-badge-overlay">
-            <span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found</span>
-          </div>
-        </div>
-        <div class="item-card-body">
-          <span class="category-pill mb-2 align-self-start">Clothing</span>
-          <h5 class="item-card-title">Navy Blue Fest Hoodie (Size L)</h5>
-          <p class="item-card-desc">Annual Fest 2025 commemorative hoodie with embroidered logo on chest.</p>
-          <div class="item-card-meta">
-            <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Sports Ground Bleachers</div>
-            <div class="d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-calendar3 me-1"></i> Nov 21, 2026</span>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=4" class="btn btn-sm btn-outline-primary py-0">View Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Item Card 5 (Lost) -->
-    <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Lost" data-category="Books / Stationery" data-location="Academic" data-date="2026-11-18">
-      <div class="item-card">
-        <div class="item-card-img-wrapper">
-          <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Maths Book">
-          <div class="item-card-badge-overlay">
-            <span class="badge-lost"><i class="bi bi-question-circle me-1"></i> Lost</span>
-          </div>
-        </div>
-        <div class="item-card-body">
-          <span class="category-pill mb-2 align-self-start">Books / Stationery</span>
-          <h5 class="item-card-title">Higher Engineering Mathematics</h5>
-          <p class="item-card-desc">Hardcover textbook with handwritten notes and yellow highlighter markings in Unit 3.</p>
-          <div class="item-card-meta">
-            <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Room 304, Academic Block B</div>
-            <div class="d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-calendar3 me-1"></i> Nov 18, 2026</span>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=5" class="btn btn-sm btn-outline-primary py-0">View Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Item Card 6 (Found) -->
-    <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Found" data-category="Accessories" data-location="Cafeteria" data-date="2026-11-22">
-      <div class="item-card">
-        <div class="item-card-img-wrapper">
-          <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Watch">
-          <div class="item-card-badge-overlay">
-            <span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found</span>
-          </div>
-        </div>
-        <div class="item-card-body">
-          <span class="category-pill mb-2 align-self-start">Accessories</span>
-          <h5 class="item-card-title">Silver Fossil Chronograph Watch</h5>
-          <p class="item-card-desc">Stainless steel strap, dark blue dial with slight scratch at the 4 o'clock mark.</p>
-          <div class="item-card-meta">
-            <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Restroom near Canteen</div>
-            <div class="d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-calendar3 me-1"></i> Nov 22, 2026</span>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=6" class="btn btn-sm btn-outline-primary py-0">View Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Item Card 7 (Lost) -->
-    <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Lost" data-category="Keys" data-location="Parking" data-date="2026-11-21">
-      <div class="item-card">
-        <div class="item-card-img-wrapper">
-          <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Keys">
-          <div class="item-card-badge-overlay">
-            <span class="badge-lost"><i class="bi bi-question-circle me-1"></i> Lost</span>
-          </div>
-        </div>
-        <div class="item-card-body">
-          <span class="category-pill mb-2 align-self-start">Keys</span>
-          <h5 class="item-card-title">Honda Bike Key on Lanyard</h5>
-          <p class="item-card-desc">Single bike key attached to a red 'Remove Before Flight' woven fabric keychain tag.</p>
-          <div class="item-card-meta">
-            <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Student Parking Lot (Sector 2)</div>
-            <div class="d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-calendar3 me-1"></i> Nov 21, 2026</span>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=7" class="btn btn-sm btn-outline-primary py-0">View Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Item Card 8 (Found) -->
-    <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Found" data-category="Other" data-location="Sports" data-date="2026-11-20">
-      <div class="item-card">
-        <div class="item-card-img-wrapper">
-          <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Flask">
-          <div class="item-card-badge-overlay">
-            <span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found</span>
-          </div>
-        </div>
-        <div class="item-card-body">
-          <span class="category-pill mb-2 align-self-start">Other</span>
-          <h5 class="item-card-title">Milton Insulated Steel Flask</h5>
-          <p class="item-card-desc">Matte olive green water bottle (750ml) with campus sports club vinyl sticker.</p>
-          <div class="item-card-meta">
-            <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Gymnasium Bench</div>
-            <div class="d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-calendar3 me-1"></i> Nov 20, 2026</span>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=8" class="btn btn-sm btn-outline-primary py-0">View Details</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+    
   <!-- =======================================================================
        Empty State (Shown when no items match the filter)
        ======================================================================= -->
@@ -328,93 +137,179 @@
 
 {% block extra_js %}
 <!-- Interactive Real-time Search & Filter Script -->
+
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const searchInput = document.getElementById("searchInput");
     const typeFilter = document.getElementById("typeFilter");
     const categoryFilter = document.getElementById("categoryFilter");
     const locationFilter = document.getElementById("locationFilter");
     const clearFiltersBtn = document.getElementById("clearFiltersBtn");
     const resetEmptyBtn = document.getElementById("resetEmptyBtn");
-    const cardWrappers = document.querySelectorAll(".item-card-wrapper");
+    const itemsGrid = document.getElementById("itemsGrid");
     const itemCountSpan = document.getElementById("itemCount");
     const emptyState = document.getElementById("emptyState");
     const sortOrder = document.getElementById("sortOrder");
 
-    // Read URL query parameters on initial page load
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get("category")) {
-      categoryFilter.value = urlParams.get("category");
+    let allItems = [];
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
     }
-    if (urlParams.get("q")) {
-      searchInput.value = urlParams.get("q");
+
+    function formatDate(value) {
+        if (!value) return "Date unavailable";
+        const parts = value.split("-");
+        if (parts.length !== 3) return escapeHTML(value);
+        return `${parts[2]}-${parts[1]}-${parts[0]}`;
     }
-    if (urlParams.get("item_type")) {
-      typeFilter.value = urlParams.get("item_type");
-    }
-    if (urlParams.get("location")) {
-      locationFilter.value = urlParams.get("location");
+
+    function renderItems(items) {
+        itemsGrid.innerHTML = "";
+
+        items.forEach(item => {
+            const isLost = item.item_type === "Lost";
+            const image = item.image_url || 
+                "{{ url_for('static', filename='images/placeholder.svg') }}";
+
+            const card = document.createElement("div");
+            card.className = "col-sm-6 col-lg-4 col-xl-3";
+
+            card.innerHTML = `
+                <div class="item-card">
+                    <div class="item-card-img-wrapper">
+                        <img src="${escapeHTML(image)}"
+                             alt="${escapeHTML(item.item_name)}"
+                             onerror="this.src='{{ url_for('static', filename='images/placeholder.svg') }}'">
+                        <div class="item-card-badge-overlay">
+                            <span class="${isLost ? 'badge-lost' : 'badge-found'}">
+                                <i class="bi ${isLost ? 'bi-question-circle' : 'bi-check-circle'} me-1"></i>
+                                ${isLost ? 'Lost' : 'Found'}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="item-card-body">
+                        <span class="category-pill mb-2 align-self-start">
+                            ${escapeHTML(item.category)}
+                        </span>
+
+                        <h5 class="item-card-title">
+                            ${escapeHTML(item.item_name)}
+                        </h5>
+
+                        <p class="item-card-desc">
+                            ${escapeHTML(item.item_description)}
+                        </p>
+
+                        <div class="item-card-meta">
+                            <div class="text-truncate mb-1">
+                                <i class="bi bi-geo-alt text-primary me-1"></i>
+                                ${escapeHTML(item.location)}
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>
+                                    <i class="bi bi-calendar3 me-1"></i>
+                                    ${formatDate(item.date_lost_found)}
+                                </span>
+
+                                <a href="/item-details?id=${encodeURIComponent(item.item_id)}"
+                                   class="btn btn-sm btn-outline-primary py-0">
+                                   View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            itemsGrid.appendChild(card);
+        });
+
+        itemCountSpan.textContent = items.length;
+        emptyState.classList.toggle("d-none", items.length !== 0);
     }
 
     function applyFilters() {
-      const q = searchInput.value.toLowerCase().trim();
-      const type = typeFilter.value;
-      const cat = categoryFilter.value;
-      const loc = locationFilter.value;
+        const query = searchInput.value.toLowerCase().trim();
+        const type = typeFilter.value;
+        const category = categoryFilter.value;
+        const location = locationFilter.value.toLowerCase();
 
-      let visibleCount = 0;
+        let filtered = allItems.filter(item => {
+            const matchesSearch =
+                !query ||
+                (item.item_name || "").toLowerCase().includes(query) ||
+                (item.item_description || "").toLowerCase().includes(query) ||
+                (item.location || "").toLowerCase().includes(query);
 
-      cardWrappers.forEach((card) => {
-        const itemType = card.getAttribute("data-type");
-        const itemCat = card.getAttribute("data-category");
-        const itemLoc = card.getAttribute("data-location");
-        const titleText = card.querySelector(".item-card-title").textContent.toLowerCase();
-        const descText = card.querySelector(".item-card-desc").textContent.toLowerCase();
-        const fullLocationText = card.querySelector(".item-card-meta").textContent.toLowerCase();
+            const matchesType = !type || item.item_type === type;
+            const matchesCategory = !category || item.category === category;
+            const matchesLocation =
+                !location ||
+                (item.location || "").toLowerCase().includes(location);
 
-        const matchesQuery = !q || titleText.includes(q) || descText.includes(q) || fullLocationText.includes(q);
-        const matchesType = !type || itemType === type;
-        const matchesCat = !cat || itemCat === cat;
-        const matchesLoc = !loc || itemLoc === loc || fullLocationText.includes(loc.toLowerCase());
+            return matchesSearch && matchesType &&
+                   matchesCategory && matchesLocation;
+        });
 
-        if (matchesQuery && matchesType && matchesCat && matchesLoc) {
-          card.classList.remove("d-none");
-          visibleCount++;
-        } else {
-          card.classList.add("d-none");
-        }
-      });
+        filtered.sort((a, b) => {
+            const comparison = (a.date_lost_found || "")
+                .localeCompare(b.date_lost_found || "");
+            return sortOrder.value === "newest" ? -comparison : comparison;
+        });
 
-      if (itemCountSpan) itemCountSpan.textContent = visibleCount;
-
-      if (emptyState) {
-        if (visibleCount === 0) {
-          emptyState.classList.remove("d-none");
-        } else {
-          emptyState.classList.add("d-none");
-        }
-      }
+        renderItems(filtered);
     }
 
     function clearFilters() {
-      searchInput.value = "";
-      typeFilter.value = "";
-      categoryFilter.value = "";
-      locationFilter.value = "";
-      applyFilters();
+        searchInput.value = "";
+        typeFilter.value = "";
+        categoryFilter.value = "";
+        locationFilter.value = "";
+        applyFilters();
     }
 
-    // Attach listeners for instant feedback
+    try {
+        const response = await fetch("/api/items");
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || "Could not load items.");
+        }
+
+        allItems = Array.isArray(result) ? result : result.items || [];
+
+        const params = new URLSearchParams(window.location.search);
+        searchInput.value = params.get("q") || "";
+        typeFilter.value = params.get("item_type") || "";
+        categoryFilter.value = params.get("category") || "";
+        locationFilter.value = params.get("location") || "";
+
+        applyFilters();
+
+    } catch (error) {
+        console.error("Error loading items:", error);
+        itemsGrid.innerHTML =
+            '<p class="text-danger">Unable to load items. Please refresh the page.</p>';
+    }
+
     searchInput.addEventListener("input", applyFilters);
     typeFilter.addEventListener("change", applyFilters);
     categoryFilter.addEventListener("change", applyFilters);
     locationFilter.addEventListener("change", applyFilters);
+    sortOrder.addEventListener("change", applyFilters);
 
-    if (clearFiltersBtn) clearFiltersBtn.addEventListener("click", clearFilters);
-    if (resetEmptyBtn) resetEmptyBtn.addEventListener("click", clearFilters);
-
-    // Initial filter execution
-    applyFilters();
-  });
+    clearFiltersBtn.addEventListener("click", clearFilters);
+    resetEmptyBtn.addEventListener("click", clearFilters);
+});
 </script>
+
 {% endblock %}

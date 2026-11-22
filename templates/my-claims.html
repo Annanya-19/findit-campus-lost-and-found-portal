@@ -110,209 +110,12 @@
           </tr>
         </thead>
         <tbody id="claimsTableBody">
-          <!-- Claim 1 (Pending) -->
-          <tr class="claim-row" data-status="Pending">
-            <td class="ps-4">
-              <div class="d-flex align-items-center gap-3">
-                <div class="image-preview-box rounded-3" style="width: 48px; height: 48px;">
-                  <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="AirPods Pro">
-                </div>
-                <div>
-                  <h6 class="fw-bold mb-0 text-dark">AirPods Pro (2nd Gen)</h6>
-                  <span class="small text-muted font-monospace">#CLM-8841</span>
-                </div>
-              </div>
-            </td>
-            <td><span class="category-pill">Electronics</span></td>
-            <td><span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found Item</span></td>
-            <td class="small text-muted">Nov 21, 2026</td>
-            <td>
-              <span class="badge-pending">
-                <i class="bi bi-clock me-1"></i> Pending
-              </span>
-            </td>
-            <td class="text-end pe-4">
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=1" class="btn btn-sm btn-outline-primary me-1">
-                View Details
-              </a>
-            </td>
-          </tr>
-
-          <!-- Claim 2 (Approved) -->
-          <tr class="claim-row" data-status="Approved">
-            <td class="ps-4">
-              <div class="d-flex align-items-center gap-3">
-                <div class="image-preview-box rounded-3" style="width: 48px; height: 48px;">
-                  <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Student ID Card">
-                </div>
-                <div>
-                  <h6 class="fw-bold mb-0 text-dark">Student ID Card &amp; Metro Pass</h6>
-                  <span class="small text-muted font-monospace">#CLM-8842</span>
-                </div>
-              </div>
-            </td>
-            <td><span class="category-pill">Documents / ID Cards</span></td>
-            <td><span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found Item</span></td>
-            <td class="small text-muted">Nov 21, 2026</td>
-            <td>
-              <span class="badge-approved">
-                <i class="bi bi-check-circle me-1"></i> Approved
-              </span>
-            </td>
-            <td class="text-end pe-4">
-              <button 
-                class="btn btn-sm btn-success me-1 pickup-btn" 
-                data-item="Student ID Card &amp; Metro Pass" 
-                data-code="FIND-CLM-8842" 
-                data-location="Campus Security Main Office (Room 102)"
-                data-bs-toggle="modal" 
-                data-bs-target="#pickupModal">
-                <i class="bi bi-box-seam me-1"></i> Pickup Info
-              </button>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=2" class="btn btn-sm btn-outline-primary">
-                View Details
-              </a>
-            </td>
-          </tr>
-
-          <!-- Claim 3 (Approved) -->
-          <tr class="claim-row" data-status="Approved">
-            <td class="ps-4">
-              <div class="d-flex align-items-center gap-3">
-                <div class="image-preview-box rounded-3" style="width: 48px; height: 48px;">
-                  <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Backpack">
-                </div>
-                <div>
-                  <h6 class="fw-bold mb-0 text-dark">Black Wildcraft Laptop Backpack</h6>
-                  <span class="small text-muted font-monospace">#CLM-8843</span>
-                </div>
-              </div>
-            </td>
-            <td><span class="category-pill">Bags</span></td>
-            <td><span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found Item</span></td>
-            <td class="small text-muted">Nov 20, 2026</td>
-            <td>
-              <span class="badge-approved">
-                <i class="bi bi-check-circle me-1"></i> Approved
-              </span>
-            </td>
-            <td class="text-end pe-4">
-              <button 
-                class="btn btn-sm btn-success me-1 pickup-btn" 
-                data-item="Black Wildcraft Laptop Backpack" 
-                data-code="FIND-CLM-8843" 
-                data-location="Campus Security Main Office (Room 102)"
-                data-bs-toggle="modal" 
-                data-bs-target="#pickupModal">
-                <i class="bi bi-box-seam me-1"></i> Pickup Info
-              </button>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=3" class="btn btn-sm btn-outline-primary">
-                View Details
-              </a>
-            </td>
-          </tr>
-
-          <!-- Claim 4 (Pending) -->
-          <tr class="claim-row" data-status="Pending">
-            <td class="ps-4">
-              <div class="d-flex align-items-center gap-3">
-                <div class="image-preview-box rounded-3" style="width: 48px; height: 48px;">
-                  <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Fossil Watch">
-                </div>
-                <div>
-                  <h6 class="fw-bold mb-0 text-dark">Silver Fossil Chronograph Watch</h6>
-                  <span class="small text-muted font-monospace">#CLM-8844</span>
-                </div>
-              </div>
-            </td>
-            <td><span class="category-pill">Accessories</span></td>
-            <td><span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found Item</span></td>
-            <td class="small text-muted">Nov 22, 2026</td>
-            <td>
-              <span class="badge-pending">
-                <i class="bi bi-clock me-1"></i> Pending
-              </span>
-            </td>
-            <td class="text-end pe-4">
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=6" class="btn btn-sm btn-outline-primary">
-                View Details
-              </a>
-            </td>
-          </tr>
-
-          <!-- Claim 5 (Rejected) -->
-          <tr class="claim-row" data-status="Rejected">
-            <td class="ps-4">
-              <div class="d-flex align-items-center gap-3">
-                <div class="image-preview-box rounded-3" style="width: 48px; height: 48px;">
-                  <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Hoodie">
-                </div>
-                <div>
-                  <h6 class="fw-bold mb-0 text-dark">Navy Blue College Fest Hoodie</h6>
-                  <span class="small text-muted font-monospace">#CLM-8845</span>
-                </div>
-              </div>
-            </td>
-            <td><span class="category-pill">Clothing</span></td>
-            <td><span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found Item</span></td>
-            <td class="small text-muted">Nov 21, 2026</td>
-            <td>
-              <span class="badge-rejected">
-                <i class="bi bi-x-circle me-1"></i> Rejected
-              </span>
-            </td>
-            <td class="text-end pe-4">
-              <button 
-                class="btn btn-sm btn-outline-danger me-1 rejection-btn" 
-                data-item="Navy Blue College Fest Hoodie" 
-                data-reason="Description provided was generic. Multiple navy blue hoodies were found at the sports grounds. Please visit Campus Security (Room 102) with your student fest coordinator badge for physical verification."
-                data-bs-toggle="modal" 
-                data-bs-target="#rejectionModal">
-                <i class="bi bi-info-circle me-1"></i> Reason
-              </button>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=4" class="btn btn-sm btn-outline-primary">
-                View Details
-              </a>
-            </td>
-          </tr>
-
-          <!-- Claim 6 (Approved) -->
-          <tr class="claim-row" data-status="Approved">
-            <td class="ps-4">
-              <div class="d-flex align-items-center gap-3">
-                <div class="image-preview-box rounded-3" style="width: 48px; height: 48px;">
-                  <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Steel Flask">
-                </div>
-                <div>
-                  <h6 class="fw-bold mb-0 text-dark">Milton Insulated Steel Flask</h6>
-                  <span class="small text-muted font-monospace">#CLM-8846</span>
-                </div>
-              </div>
-            </td>
-            <td><span class="category-pill">Other</span></td>
-            <td><span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found Item</span></td>
-            <td class="small text-muted">Nov 20, 2026</td>
-            <td>
-              <span class="badge-approved">
-                <i class="bi bi-check-circle me-1"></i> Approved
-              </span>
-            </td>
-            <td class="text-end pe-4">
-              <button 
-                class="btn btn-sm btn-success me-1 pickup-btn" 
-                data-item="Milton Insulated Steel Flask" 
-                data-code="FIND-CLM-8846" 
-                data-location="Campus Security Main Office (Room 102)"
-                data-bs-toggle="modal" 
-                data-bs-target="#pickupModal">
-                <i class="bi bi-box-seam me-1"></i> Pickup Info
-              </button>
-              <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=8" class="btn btn-sm btn-outline-primary">
-                View Details
-              </a>
-            </td>
-          </tr>
-        </tbody>
+    <tr>
+        <td colspan="6" class="text-center py-4 text-muted">
+            Loading your claims...
+        </td>
+    </tr>
+</tbody>
       </table>
     </div>
 
@@ -418,64 +221,135 @@
   /**
    * Filter and Modal Helpers for My Claims Page
    */
-  document.addEventListener("DOMContentLoaded", () => {
-    const filterButtons = document.querySelectorAll(".filter-btn");
-    const claimRows = document.querySelectorAll(".claim-row");
+  
+document.addEventListener("DOMContentLoaded", async () => {
+    const tableBody = document.getElementById("claimsTableBody");
     const noClaimsState = document.getElementById("noClaimsState");
+    const filterButtons = document.querySelectorAll(".filter-btn");
 
-    // Dynamic Filter Handler (All, Pending, Approved, Rejected)
-    filterButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        filterButtons.forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
+    let allClaims = [];
+    let activeStatus = "All";
 
-        const status = btn.getAttribute("data-status");
-        let visibleCount = 0;
+    function updateCounts() {
+        const pending = allClaims.filter(c => c.claim_status === "Pending").length;
+        const approved = allClaims.filter(c => c.claim_status === "Approved").length;
+        const rejected = allClaims.filter(c => c.claim_status === "Rejected").length;
 
-        claimRows.forEach((row) => {
-          const rowStatus = row.getAttribute("data-status");
-          if (status === "All" || rowStatus === status) {
-            row.classList.remove("d-none");
-            visibleCount++;
-          } else {
-            row.classList.add("d-none");
-          }
-        });
+        document.getElementById("summaryTotal").textContent = allClaims.length;
+        document.getElementById("summaryPending").textContent = pending;
+        document.getElementById("summaryApproved").textContent = approved;
+        document.getElementById("summaryRejected").textContent = rejected;
 
-        if (noClaimsState) {
-          if (visibleCount === 0) {
+        document.getElementById("countAll").textContent = allClaims.length;
+        document.getElementById("countPending").textContent = pending;
+        document.getElementById("countApproved").textContent = approved;
+        document.getElementById("countRejected").textContent = rejected;
+    }
+
+    function renderClaims() {
+        const filtered = activeStatus === "All"
+            ? allClaims
+            : allClaims.filter(c => c.claim_status === activeStatus);
+
+        tableBody.innerHTML = "";
+
+        if (filtered.length === 0) {
             noClaimsState.classList.remove("d-none");
-          } else {
-            noClaimsState.classList.add("d-none");
-          }
+            tableBody.innerHTML = "";
+            return;
         }
-      });
+
+        noClaimsState.classList.add("d-none");
+
+        filtered.forEach(claim => {
+            const image = claim.image_url || "/static/images/placeholder.svg";
+            const status = claim.claim_status;
+            const statusClass = status.toLowerCase();
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td class="ps-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="image-preview-box rounded-3" style="width:48px;height:48px;">
+                            <img src="${image}" alt="Item">
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-dark">${escapeHTML(claim.item_name)}</h6>
+                            <span class="small text-muted font-monospace">#CLM-${claim.claim_id}</span>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="category-pill">${escapeHTML(claim.category)}</span></td>
+                <td>
+                    <span class="${claim.item_type === "Lost" ? "badge-lost" : "badge-found"}">
+                        ${escapeHTML(claim.item_type)} Item
+                    </span>
+                </td>
+                <td class="small text-muted">${escapeHTML(claim.created_at.split(" ")[0])}</td>
+                <td>
+                    <span class="badge-${statusClass}">
+                        ${escapeHTML(status)}
+                    </span>
+                </td>
+                <td class="text-end pe-4">
+                    <a href="/item-details?id=${claim.item_id}"
+                       class="btn btn-sm btn-outline-primary">
+                        View Details
+                    </a>
+                </td>
+            `;
+
+            tableBody.appendChild(row);
+        });
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
+
+    filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            filterButtons.forEach(b => b.classList.remove("active"));
+            button.classList.add("active");
+
+            activeStatus = button.dataset.status;
+            renderClaims();
+        });
     });
 
-    // Populate Pickup Modal Data
-    const pickupModal = document.getElementById("pickupModal");
-    if (pickupModal) {
-      pickupModal.addEventListener("show.bs.modal", (event) => {
-        const button = event.relatedTarget;
-        if (button) {
-          document.getElementById("modalItemTitle").textContent = button.getAttribute("data-item") || "Item Ready";
-          document.getElementById("modalPickupCode").textContent = button.getAttribute("data-code") || "FIND-CLM-8842";
-          document.getElementById("modalPickupLocation").textContent = button.getAttribute("data-location") || "Campus Security Main Office (Room 102)";
-        }
-      });
-    }
+    try {
+        const response = await fetch("/api/claims", {
+            credentials: "same-origin"
+        });
 
-    // Populate Rejection Modal Data
-    const rejectionModal = document.getElementById("rejectionModal");
-    if (rejectionModal) {
-      rejectionModal.addEventListener("show.bs.modal", (event) => {
-        const button = event.relatedTarget;
-        if (button) {
-          document.getElementById("modalRejectionTitle").textContent = `${button.getAttribute("data-item")} – Claim Declined`;
-          document.getElementById("modalRejectionReason").textContent = button.getAttribute("data-reason") || "Ownership proof could not be verified.";
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Unable to load claims");
         }
-      });
+
+        allClaims = data.claims || [];
+
+        updateCounts();
+        renderClaims();
+
+    } catch (error) {
+        console.error("My Claims loading error:", error);
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center text-danger py-4">
+                    Unable to load claims. Please log in and refresh.
+                </td>
+            </tr>
+        `;
     }
-  });
+});
+
 </script>
 {% endblock %}

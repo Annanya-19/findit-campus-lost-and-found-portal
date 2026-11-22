@@ -22,7 +22,7 @@
         </div>
 
         <!-- Reporting Form (Exact backend field names & multipart for image upload) -->
-        <form id="reportForm" action="{{ url_for('report_item') if url_for is defined else 'report-item.html' }}" method="POST" enctype="multipart/form-data" novalidate>
+        <form id="reportForm" action="{{ url_for('report_item_api') if url_for is defined else 'report-item.html' }}" method="POST" enctype="multipart/form-data" novalidate>
           
           <!-- 1. Report Type Selection (item_type: Lost or Found) -->
           <div class="mb-4">
@@ -298,26 +298,57 @@
     termsCheck.addEventListener("change", validateTerms);
 
     // Form submit guard
-    reportForm.addEventListener("submit", (e) => {
-      const isNameOk = validateItemName();
-      const isCatOk = validateCategory();
-      const isDateOk = validateDate();
-      const isLocOk = validateLocation();
-      const isDescOk = validateDescription();
-      const isTermsOk = validateTerms();
-
-      const isAllValid = isNameOk && isCatOk && isDateOk && isLocOk && isDescOk && isTermsOk;
-
-      if (!isAllValid) {
+    
+    // Submit report using Flask API
+    reportForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        e.stopPropagation();
 
-        const firstInvalid = reportForm.querySelector(".is-invalid");
-        if (firstInvalid) {
-          firstInvalid.focus();
+        const isAllValid =
+            validateItemName() &&
+            validateCategory() &&
+            validateDate() &&
+            validateLocation() &&
+            validateDescription() &&
+            validateTerms();
+
+        if (!isAllValid) {
+            const firstInvalid = reportForm.querySelector(".is-invalid");
+            if (firstInvalid) firstInvalid.focus();
+            return;
         }
-      }
+
+        const submitBtn = document.getElementById("reportSubmitBtn");
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Submitting...";
+
+        try {
+            const formData = new FormData(reportForm);
+
+            const response = await fetch("/api/items", {
+                method: "POST",
+                body: formData,
+                credentials: "same-origin"
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                alert("Item reported successfully!");
+                window.location.href = "/browse";
+            } else {
+                alert(result.message || "Failed to submit report.");
+            }
+
+        } catch (error) {
+            console.error("Report submission error:", error);
+            alert("Something went wrong. Please try again.");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML =
+                '<i class="bi bi-cloud-arrow-up me-1"></i> Submit Report';
+        }
     });
+
   });
 </script>
 {% endblock %}

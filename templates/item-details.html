@@ -1,269 +1,583 @@
+
 {% extends "base.html" %}
 
-{% block title %}{{ item.item_name if item else 'Item Details' }} - FindIt Campus Lost & Found{% endblock %}
+{% block title %}Item Details - FindIt Campus Lost & Found{% endblock %}
 
 {% block content %}
+
 <div class="container py-4">
-  <!-- Back navigation breadcrumb & Back to Browse button -->
-  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a href="{{ url_for('index') if url_for is defined else 'index.html' }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}">Browse Items</a></li>
-        <li class="breadcrumb-item active" aria-current="page" id="breadcrumbTitle">{{ item.item_name if item else 'Item Details' }}</li>
-      </ol>
-    </nav>
-    <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}" class="btn btn-outline-secondary btn-sm px-3">
-      <i class="bi bi-arrow-left me-1"></i> Back to Browse
-    </a>
-  </div>
 
-  <!-- Success Notification Alert (Hidden by default, triggered on claim submit) -->
-  <div id="claimSuccessAlert" class="alert alert-success alert-dismissible fade show d-none shadow-sm mb-4" role="alert">
-    <div class="d-flex align-items-center gap-2">
-      <i class="bi bi-check-circle-fill fs-4 text-success"></i>
-      <div>
-        <strong id="claimSuccessHeading">Claim Submitted Successfully!</strong>
-        <p class="mb-0 small" id="claimSuccessMessage">Your claim and ownership details have been sent to Campus Security for verification. You can track status under "My Claims".</p>
-      </div>
-    </div>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
+    <!-- Breadcrumb navigation -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ url_for('browse') }}">Browse Items</a>
+                </li>
+                <li class="breadcrumb-item active" id="breadcrumbTitle">
+                    Item Details
+                </li>
+            </ol>
+        </nav>
 
-  <div class="row g-4">
-    <!-- 1. Prominent Item Image Section -->
-    <div class="col-lg-5">
-      <div class="card border-0 shadow-sm rounded-4 overflow-hidden p-3 bg-white h-100 d-flex flex-column">
-        <div class="image-preview-box rounded-3 flex-grow-1" style="min-height: 340px; max-height: 420px;">
-          <img 
-            id="detailImage" 
-            src="{{ item.image if item else (url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg') }}" 
-            alt="Item Photo" 
-            class="img-fluid rounded">
-        </div>
-        <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-3 text-muted small">
-          <span><i class="bi bi-camera me-1"></i> Original Photo</span>
-          <span class="badge bg-light text-secondary border"><i class="bi bi-shield-check text-primary me-1"></i> Admin Inspected</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2. Detailed Item Information Section -->
-    <div class="col-lg-7">
-      <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100 d-flex flex-column">
-        
-        <!-- Status Badge, Category & ID Row -->
-        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-          <span id="detailBadge" class="badge-found fs-6">
-            <i class="bi bi-check-circle me-1"></i> <span id="detailType">{{ item.item_type if item else 'Found' }} Item</span>
-          </span>
-          <span id="detailCategory" class="category-pill">{{ item.category if item else 'Documents / ID Cards' }}</span>
-          <span class="badge bg-light text-muted border ms-auto small" id="detailId">ID #FIND-{{ item.id if item else '1042' }}</span>
-        </div>
-
-        <!-- 3. Item Name -->
-        <h2 id="detailTitle" class="fw-bold text-dark mb-3">
-          {{ item.item_name if item else 'Student ID Card & Metro Pass' }}
-        </h2>
-
-        <!-- 4. Key Meta Attributes (Location & Date) -->
-        <div class="row g-3 py-3 border-top border-bottom my-2 bg-light-subtle rounded-3 p-2">
-          <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-2 text-muted small">
-              <i class="bi bi-geo-alt-fill text-primary fs-5"></i>
-              <div>
-                <div class="text-muted">Campus Location</div>
-                <strong id="detailLocation" class="text-dark">{{ item.location if item else 'Cafeteria Counter 3' }}</strong>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-2 text-muted small">
-              <i class="bi bi-calendar-event text-primary fs-5"></i>
-              <div>
-                <div class="text-muted">Date Reported</div>
-                <strong id="detailDate" class="text-dark">{{ item.date_lost_found if item else 'November 21, 2026' }}</strong>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 5. Complete Item Description -->
-        <div class="my-3">
-          <h5 class="fw-bold text-dark mb-2">Item Description</h5>
-          <p id="detailDesc" class="text-muted leading-relaxed mb-0">
-            {{ item.item_description if item else 'College ID Card belonging to CS Department along with a blue metro smart card inside a transparent holder with college lanyard.' }}
-          </p>
-        </div>
-
-        <!-- 6. Reported By Information Section (Mock Data / Backend Ready) -->
-        <div class="card border bg-light-subtle rounded-3 p-3 my-2">
-          <div class="d-flex align-items-center gap-3">
-            <div class="stat-icon bg-primary-subtle text-primary" style="width: 42px; height: 42px;">
-              <i class="bi bi-person-badge fs-5"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="d-flex align-items-center gap-2">
-                <strong class="text-dark" id="reporterName">{{ item.reported_by.name if item and item.reported_by else 'Sunita Rao' }}</strong>
-                <span class="badge bg-success-subtle text-success small py-1">
-                  <i class="bi bi-patch-check-fill me-1"></i> Verified Campus Member
-                </span>
-              </div>
-              <div class="small text-muted" id="reporterDept">
-                {{ item.reported_by.role if item and item.reported_by else 'Campus Staff' }} &bull; {{ item.reported_by.department if item and item.reported_by else 'Cafeteria Administration' }}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Campus Handover Notice -->
-        <div class="alert alert-info py-2 px-3 small d-flex align-items-center gap-2 mb-4">
-          <i class="bi bi-info-circle-fill fs-5 text-primary"></i>
-          <div>
-            <strong>Campus Handover Notice:</strong> Found property is retained in custody at <em>Campus Security Desk (Room 102)</em>. Valid ID is mandatory for claiming.
-          </div>
-        </div>
-
-        <!-- 7. Action Buttons (Claim This Item & Back to Browse) -->
-        <div class="mt-auto d-flex flex-wrap gap-2 pt-2 border-top">
-          <button 
-            type="button" 
-            id="claimItemBtn" 
-            class="btn btn-primary px-4 py-2 fw-semibold shadow-sm" 
-            data-bs-toggle="modal" 
-            data-bs-target="#claimModal">
-            <i class="bi bi-hand-index-thumb me-1"></i> Claim This Item
-          </button>
-          
-          <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}" class="btn btn-outline-secondary px-3 py-2">
+        <a href="{{ url_for('browse') }}"
+           class="btn btn-outline-secondary btn-sm px-3">
             <i class="bi bi-arrow-left me-1"></i> Back to Browse
-          </a>
-        </div>
-      </div>
+        </a>
     </div>
-  </div>
+
+    <!-- Success notification -->
+    <div id="claimSuccessAlert"
+         class="alert alert-success alert-dismissible fade show d-none shadow-sm mb-4"
+         role="alert">
+
+        <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-check-circle-fill fs-4 text-success"></i>
+            <div>
+                <strong id="claimSuccessHeading">
+                    Claim Submitted Successfully!
+                </strong>
+                <p class="mb-0 small" id="claimSuccessMessage">
+                    Your claim has been sent for verification.
+                    You can track its status under My Claims.
+                </p>
+            </div>
+        </div>
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close">
+        </button>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Item image -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden p-3 bg-white h-100 d-flex flex-column">
+
+                <div class="image-preview-box rounded-3 flex-grow-1"
+                     style="min-height:340px; max-height:420px;">
+
+                    <img id="detailImage"
+                         src="{{ url_for('static', filename='images/placeholder.svg') }}"
+                         alt="Item Photo"
+                         class="img-fluid rounded">
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-3 text-muted small">
+                    <span>
+                        <i class="bi bi-camera me-1"></i> Original Photo
+                    </span>
+
+                    <span class="badge bg-light text-secondary border">
+                        <i class="bi bi-shield-check text-primary me-1"></i>
+                        Admin Inspected
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item information -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100 d-flex flex-column">
+
+                <!-- Status and category -->
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+
+                    <span id="detailBadge" class="badge-found fs-6">
+                        <i class="bi bi-check-circle me-1"></i>
+                        <span id="detailType">Found Item</span>
+                    </span>
+
+                    <span id="detailCategory" class="category-pill">
+                        Category
+                    </span>
+
+                    <span class="badge bg-light text-muted border ms-auto small"
+                          id="detailId">
+                        Item ID
+                    </span>
+                </div>
+
+                <!-- Item name -->
+                <h2 id="detailTitle" class="fw-bold text-dark mb-3">
+                    Loading item...
+                </h2>
+
+                <!-- Location and date -->
+                <div class="row g-3 py-3 border-top border-bottom my-2 bg-light-subtle rounded-3 p-2">
+
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center gap-2 text-muted small">
+                            <i class="bi bi-geo-alt-fill text-primary fs-5"></i>
+                            <div>
+                                <div class="text-muted">Campus Location</div>
+                                <strong id="detailLocation" class="text-dark"></strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center gap-2 text-muted small">
+                            <i class="bi bi-calendar-event text-primary fs-5"></i>
+                            <div>
+                                <div class="text-muted">Date Reported</div>
+                                <strong id="detailDate" class="text-dark"></strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="my-3">
+                    <h5 class="fw-bold text-dark mb-2">Item Description</h5>
+                    <p id="detailDesc"
+                       class="text-muted leading-relaxed mb-0">
+                    </p>
+                </div>
+
+                <!-- Reporter information -->
+                <div class="card border bg-light-subtle rounded-3 p-3 my-2">
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="stat-icon bg-primary-subtle text-primary"
+                             style="width:42px;height:42px;">
+                            <i class="bi bi-person-badge fs-5"></i>
+                        </div>
+
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center gap-2">
+                                <strong class="text-dark" id="reporterName">
+                                    Campus Member
+                                </strong>
+
+                                <span class="badge bg-success-subtle text-success small py-1">
+                                    <i class="bi bi-patch-check-fill me-1"></i>
+                                    Verified Campus Member
+                                </span>
+                            </div>
+
+                            <div class="small text-muted" id="reporterDept">
+                                Campus Member
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Handover notice -->
+                <div class="alert alert-info py-2 px-3 small d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-info-circle-fill fs-5 text-primary"></i>
+                    <div>
+                        <strong>Campus Handover Notice:</strong>
+                        Found property is retained at
+                        <em>Campus Security Desk (Room 102)</em>.
+                        Valid ID is mandatory for claiming.
+                    </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="mt-auto d-flex flex-wrap gap-2 pt-2 border-top">
+
+                    <button type="button"
+                            id="claimItemBtn"
+                            class="btn btn-primary px-4 py-2 fw-semibold shadow-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#claimModal">
+
+                        <i class="bi bi-hand-index-thumb me-1"></i>
+                        Claim This Item
+                    </button>
+
+                    <a href="{{ url_for('browse') }}"
+                       class="btn btn-outline-secondary px-3 py-2">
+                        <i class="bi bi-arrow-left me-1"></i>
+                        Back to Browse
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- =======================================================================
-     8. Professional Claim Modal (Contains exact database field: claim_message)
-     ======================================================================= -->
-<div class="modal fade" id="claimModal" tabindex="-1" aria-labelledby="claimModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg rounded-4">
-      <div class="modal-header border-bottom">
-        <h5 class="modal-title fw-bold text-dark" id="claimModalLabel">
-          <i class="bi bi-shield-check text-primary me-2"></i> Submit Ownership Claim
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
 
-      <form id="claimForm" action="{{ url_for('submit_claim') if url_for is defined else 'my-claims.html' }}" method="POST" novalidate>
-        <div class="modal-body p-4">
-          <p class="text-muted small mb-3">
-            To prevent wrongful claims, please describe identifying marks, contents, or serial numbers that prove you own this item.
-          </p>
+<!-- Claim modal -->
+<div class="modal fade"
+     id="claimModal"
+     tabindex="-1"
+     aria-labelledby="claimModalLabel"
+     aria-hidden="true">
 
-          <!-- Exact database field: claim_message -->
-          <div class="mb-3">
-            <label for="claim_message" class="form-label fw-semibold">
-              Proof / Identifying Details <span class="text-danger">*</span>
-            </label>
-            <textarea 
-              class="form-control" 
-              id="claim_message" 
-              name="claim_message" 
-              rows="4" 
-              placeholder="e.g. Roll number on card is CS-2024-042, signature on back, or describe wallpaper/stickers..." 
-              required></textarea>
-            <div class="invalid-feedback" id="claimMessageFeedback">
-              Please provide identifying proof (minimum 10 characters).
-            </div>
-            <div class="form-text text-muted small">
-              This message will be reviewed by campus security before approving physical handover.
-            </div>
-          </div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
 
-          <!-- Honor Code Certification -->
-          <div class="form-check small text-muted">
-            <input class="form-check-input" type="checkbox" id="claimHonorCheck" required>
-            <label class="form-check-label" for="claimHonorCheck">
-              I certify under the campus honor code that I am the rightful owner of this property.
-            </label>
-            <div class="invalid-feedback" id="honorCheckFeedback">
-              You must certify ownership before submitting.
+            <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold text-dark"
+                    id="claimModalLabel">
+
+                    <i class="bi bi-shield-check text-primary me-2"></i>
+                    Submit Ownership Claim
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close">
+                </button>
             </div>
-          </div>
+
+            <!-- Claim form -->
+            <form id="claimForm" novalidate>
+
+                <div class="modal-body p-4">
+
+                    <p class="text-muted small mb-3">
+                        To prevent wrongful claims, please describe
+                        identifying marks, contents, or serial numbers
+                        that prove you own this item.
+                    </p>
+
+                    <div class="mb-3">
+                        <label for="claim_message"
+                               class="form-label fw-semibold">
+                            Proof / Identifying Details
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <textarea class="form-control"
+                                  id="claim_message"
+                                  name="claim_message"
+                                  rows="4"
+                                  placeholder="Describe identifying marks, serial numbers, stickers, etc."
+                                  required></textarea>
+
+                        <div class="invalid-feedback">
+                            Please provide identifying proof
+                            (minimum 10 characters).
+                        </div>
+
+                        <div class="form-text text-muted small">
+                            This message will be reviewed by campus
+                            security before approving physical handover.
+                        </div>
+                    </div>
+
+                    <!-- Honor code -->
+                    <div class="form-check small text-muted">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="claimHonorCheck"
+                               required>
+
+                        <label class="form-check-label"
+                               for="claimHonorCheck">
+                            I certify under the campus honor code
+                            that I am the rightful owner of this property.
+                        </label>
+
+                        <div class="invalid-feedback">
+                            You must certify ownership before submitting.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer border-top bg-light-subtle">
+
+                    <button type="button"
+                            class="btn btn-secondary btn-sm px-3"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            id="submitClaimBtn"
+                            class="btn btn-primary btn-sm px-4 fw-semibold shadow-sm">
+
+                        <i class="bi bi-send me-1"></i>
+                        Submit Claim
+                    </button>
+                </div>
+
+            </form>
         </div>
-
-        <!-- 10. Submit Claim & Cancel Buttons -->
-        <div class="modal-footer border-top bg-light-subtle">
-          <button type="button" class="btn btn-secondary btn-sm px-3" data-bs-dismiss="modal">
-            Cancel
-          </button>
-          <button type="submit" id="submitClaimBtn" class="btn btn-primary btn-sm px-4 fw-semibold shadow-sm">
-            <i class="bi bi-send me-1"></i> Submit Claim
-          </button>
-        </div>
-      </form>
     </div>
-  </div>
 </div>
+
 {% endblock %}
 
-{% block extra_js %}
-<script>
-  /**
-   * Client-Side Validation for Claim Submission
-   */
-  document.addEventListener("DOMContentLoaded", () => {
-    const claimForm = document.getElementById("claimForm");
-    if (!claimForm) return;
 
+{% block extra_js %}
+
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const itemId = new URLSearchParams(window.location.search).get("id");
+
+    const claimForm = document.getElementById("claimForm");
     const claimMessageInput = document.getElementById("claim_message");
     const honorCheck = document.getElementById("claimHonorCheck");
+    const submitBtn = document.getElementById("submitClaimBtn");
+    const claimButton = document.getElementById("claimItemBtn");
 
-    claimForm.addEventListener("submit", (e) => {
-      let isValid = true;
+    let currentItem = null;
 
-      // Validate claim_message
-      if (!claimMessageInput.value.trim() || claimMessageInput.value.trim().length < 10) {
-        claimMessageInput.classList.add("is-invalid");
-        claimMessageInput.classList.remove("is-valid");
-        isValid = false;
-      } else {
-        claimMessageInput.classList.remove("is-invalid");
-        claimMessageInput.classList.add("is-valid");
-      }
+    // Load item details
+    try {
 
-      // Validate honor check
-      if (!honorCheck.checked) {
-        honorCheck.classList.add("is-invalid");
-        honorCheck.classList.remove("is-valid");
-        isValid = false;
-      } else {
-        honorCheck.classList.remove("is-invalid");
-        honorCheck.classList.add("is-valid");
-      }
+        if (!itemId) {
+            throw new Error("Item ID is missing from the URL.");
+        }
 
-      if (!isValid) {
+        const response = await fetch("/api/items", {
+            credentials: "same-origin"
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Unable to load items.");
+        }
+
+        currentItem = data.items.find(
+            item => String(item.item_id) === String(itemId)
+        );
+
+        if (!currentItem) {
+
+            document.getElementById("detailTitle").textContent =
+                "Item not found";
+
+            document.getElementById("detailDesc").textContent =
+                "This item may have been removed.";
+
+            claimButton.disabled = true;
+            return;
+        }
+
+        // Populate item details
+        document.getElementById("detailTitle").textContent =
+            currentItem.item_name;
+
+        document.getElementById("breadcrumbTitle").textContent =
+            currentItem.item_name;
+
+        document.getElementById("detailCategory").textContent =
+            currentItem.category;
+
+        document.getElementById("detailLocation").textContent =
+            currentItem.location;
+
+        document.getElementById("detailDate").textContent =
+            currentItem.date_lost_found;
+
+        document.getElementById("detailDesc").textContent =
+            currentItem.item_description;
+
+        document.getElementById("detailId").textContent =
+            "ID #" + currentItem.item_id;
+
+        document.getElementById("reporterName").textContent =
+            currentItem.reporter_name || "Campus Member";
+
+        const image = document.getElementById("detailImage");
+
+        image.src = currentItem.image_url ||
+            "{{ url_for('static', filename='images/placeholder.svg') }}";
+
+        image.onerror = function () {
+            this.src =
+                "{{ url_for('static', filename='images/placeholder.svg') }}";
+        };
+
+        // Lost or Found badge
+        const isLost = currentItem.item_type === "Lost";
+
+        document.getElementById("detailBadge").className =
+            isLost ? "badge-lost fs-6" : "badge-found fs-6";
+
+        document.getElementById("detailType").textContent =
+            currentItem.item_type + " Item";
+
+        // Disable claiming resolved items
+        if (currentItem.status !== "Active") {
+            claimButton.disabled = true;
+            claimButton.removeAttribute("data-bs-toggle");
+            claimButton.removeAttribute("data-bs-target");
+            claimButton.textContent = "Item Already Resolved";
+        }
+
+    } catch (error) {
+
+        console.error("Item loading error:", error);
+
+        document.getElementById("detailTitle").textContent =
+            "Unable to load item";
+
+        document.getElementById("detailDesc").textContent =
+            error.message;
+
+        claimButton.disabled = true;
+        return;
+    }
+
+
+    // Claim form submission
+    claimForm.addEventListener("submit", async function (e) {
+
         e.preventDefault();
-        e.stopPropagation();
-      }
-    });
 
-    claimMessageInput.addEventListener("input", () => {
-      if (claimMessageInput.value.trim().length >= 10) {
+        if (!currentItem) {
+            alert("Item details are not available.");
+            return;
+        }
+
+        const message = claimMessageInput.value.trim();
+
+        // Validate proof
+        if (message.length < 10) {
+            claimMessageInput.classList.add("is-invalid");
+            return;
+        }
+
         claimMessageInput.classList.remove("is-invalid");
-        claimMessageInput.classList.add("is-valid");
-      }
+
+        // Validate honor code
+        if (!honorCheck.checked) {
+            honorCheck.classList.add("is-invalid");
+            return;
+        }
+
+        honorCheck.classList.remove("is-invalid");
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Submitting...";
+
+        let claimConfirmed = false;
+
+        try {
+
+            // Submit claim to Flask
+            const response = await fetch("/api/claims", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                credentials: "same-origin",
+
+                body: JSON.stringify({
+                    item_id: currentItem.item_id,
+                    claim_message: message
+                })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                alert(result.message || "Unable to submit claim.");
+                return;
+            }
+
+            claimConfirmed = true;
+
+        } catch (error) {
+
+            console.error("Claim response error:", error);
+
+            // Check My Claims if POST response could not be processed
+            try {
+
+                const verifyResponse = await fetch("/api/claims", {
+                    method: "GET",
+                    credentials: "same-origin",
+                    cache: "no-store"
+                });
+
+                const verifyData = await verifyResponse.json();
+
+                if (verifyResponse.ok && verifyData.success) {
+
+                    claimConfirmed = verifyData.claims.some(claim =>
+                        String(claim.item_id) === String(currentItem.item_id) &&
+                        String(claim.claim_message).trim() === message
+                    );
+                }
+
+            } catch (verificationError) {
+
+                console.error(
+                    "Claim verification error:",
+                    verificationError
+                );
+            }
+
+            if (!claimConfirmed) {
+                alert(
+                    "We could not confirm your claim. " +
+                    "Please check My Claims before trying again."
+                );
+                return;
+            }
+
+        } finally {
+
+            submitBtn.disabled = false;
+
+            submitBtn.innerHTML =
+                '<i class="bi bi-send me-1"></i> Submit Claim';
+        }
+
+        // Display success only after confirmation
+        if (claimConfirmed) {
+
+            const modalElement =
+                document.getElementById("claimModal");
+
+            if (window.bootstrap && window.bootstrap.Modal) {
+
+                window.bootstrap.Modal
+                    .getOrCreateInstance(modalElement)
+                    .hide();
+            }
+
+            document.getElementById("claimSuccessAlert")
+                .classList.remove("d-none");
+
+            document.getElementById("claimSuccessMessage")
+                .textContent =
+                "Your claim has been submitted successfully! " +
+                "You can track it under My Claims.";
+
+            claimForm.reset();
+        }
+
     });
 
-    honorCheck.addEventListener("change", () => {
-      if (honorCheck.checked) {
-        honorCheck.classList.remove("is-invalid");
-        honorCheck.classList.add("is-valid");
-      }
+
+    // Clear proof validation
+    claimMessageInput.addEventListener("input", function () {
+
+        if (claimMessageInput.value.trim().length >= 10) {
+            claimMessageInput.classList.remove("is-invalid");
+        }
     });
-  });
+
+
+    // Clear honor code validation
+    honorCheck.addEventListener("change", function () {
+        honorCheck.classList.remove("is-invalid");
+    });
+
+});
 </script>
+
 {% endblock %}

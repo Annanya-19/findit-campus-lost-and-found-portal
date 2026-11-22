@@ -1,207 +1,258 @@
+
 {% extends "base.html" %}
 
 {% block title %}Register - FindIt Campus Lost & Found{% endblock %}
 
 {% block content %}
 <div class="container py-5">
-  <div class="auth-wrapper">
-    <div class="auth-card">
-      <!-- Header Branding matching homepage style -->
-      <div class="text-center mb-4">
-        <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-semibold mb-2">
-          <i class="bi bi-shield-check me-1"></i> Student &amp; Staff Registration
-        </span>
-        <h3 class="fw-bold text-dark mb-1">Create Your FindIt Account</h3>
-        <p class="text-muted small">
-          Connect with campus security, report lost items, and claim found belongings.
-        </p>
-      </div>
+    <div class="auth-wrapper">
+        <div class="auth-card">
 
-      <!-- Registration Form -->
-      <form id="registerForm" action="{{ url_for('register') if url_for is defined else 'register.html' }}" method="POST" novalidate>
-        
-        <!-- 1. Full Name (exact field: full_name) -->
-        <div class="mb-3">
-          <label for="full_name" class="form-label">
-            Full Name <span class="text-danger">*</span>
-          </label>
-          <div class="input-group">
-            <span class="input-group-text input-icon border-end-0">
-              <i class="bi bi-person-fill"></i>
-            </span>
-            <input 
-              type="text" 
-              class="form-control border-start-0" 
-              id="full_name" 
-              name="full_name" 
-              placeholder="e.g. Rahul Sharma" 
-              autocomplete="name"
-              required>
-          </div>
-          <div class="invalid-feedback" id="fullNameFeedback">
-            Please enter your full name (minimum 2 characters).
-          </div>
+            <!-- Header Branding -->
+            <div class="text-center mb-4">
+                <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-semibold mb-2">
+                    <i class="bi bi-shield-check me-1"></i> Student Registration
+                </span>
+
+                <h3 class="fw-bold text-dark mb-1">Create Your FindIt Account</h3>
+
+                <p class="text-muted small">
+                    Connect with campus security, report lost items, and claim found belongings.
+                </p>
+            </div>
+
+            <!-- Registration Form -->
+            <form id="registerForm"
+                  action="{{ url_for('register_api') }}"
+                  method="POST"
+                  novalidate>
+
+                <!-- 1. Full Name -->
+                <div class="mb-3">
+                    <label for="full_name" class="form-label">
+                        Full Name <span class="text-danger">*</span>
+                    </label>
+
+                    <div class="input-group">
+                        <span class="input-group-text input-icon border-end-0">
+                            <i class="bi bi-person-fill"></i>
+                        </span>
+
+                        <input
+                            type="text"
+                            class="form-control border-start-0"
+                            id="full_name"
+                            name="full_name"
+                            placeholder="e.g. Rahul Sharma"
+                            autocomplete="name"
+                            required>
+                    </div>
+
+                    <div class="invalid-feedback" id="fullNameFeedback">
+                        Please enter your full name (minimum 2 characters).
+                    </div>
+                </div>
+
+                <!-- 2. College Email ID -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        College Email ID <span class="text-danger">*</span>
+                    </label>
+
+                    <div class="input-group">
+                        <span class="input-group-text input-icon border-end-0">
+                            <i class="bi bi-envelope-at-fill"></i>
+                        </span>
+
+                        <input
+                            type="email"
+                            class="form-control border-start-0"
+                            id="email"
+                            name="email"
+                            placeholder="student@college.edu"
+                            autocomplete="email"
+                            required>
+                    </div>
+
+                    <div class="invalid-feedback" id="emailFeedback">
+                        Please enter a valid college email address.
+                    </div>
+
+                    <div class="form-text text-muted small">
+                        Official campus email used for account verification and recovery.
+                    </div>
+                </div>
+
+                <!-- 3. Phone Number -->
+                <div class="mb-3">
+                    <label for="phone_number" class="form-label">
+                        Phone Number <span class="text-danger">*</span>
+                    </label>
+
+                    <div class="input-group">
+                        <span class="input-group-text input-icon border-end-0">
+                            <i class="bi bi-telephone-fill"></i>
+                        </span>
+
+                        <input
+                            type="tel"
+                            class="form-control border-start-0"
+                            id="phone_number"
+                            name="phone_number"
+                            placeholder="10-digit mobile number (e.g. 9876543210)"
+                            autocomplete="tel"
+                            maxlength="10"
+                            required>
+                    </div>
+
+                    <div class="invalid-feedback" id="phoneFeedback">
+                        Please enter a valid 10-digit phone number.
+                    </div>
+
+                    <div class="form-text text-muted small">
+                        Contact number for security handover notifications.
+                    </div>
+                </div>
+
+                <!-- Password and Confirm Password -->
+                <div class="row g-3 mb-3">
+
+                    <!-- 4. Password -->
+                    <div class="col-md-6">
+                        <label for="password" class="form-label">
+                            Password <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="input-group">
+                            <span class="input-group-text input-icon border-end-0">
+                                <i class="bi bi-lock-fill"></i>
+                            </span>
+
+                            <input
+                                type="password"
+                                class="form-control border-start-0 border-end-0"
+                                id="password"
+                                name="password"
+                                placeholder="At least 6 characters"
+                                minlength="6"
+                                autocomplete="new-password"
+                                required>
+
+                            <button
+                                type="button"
+                                class="password-toggle-btn rounded-end"
+                                id="togglePassword"
+                                aria-label="Toggle password visibility"
+                                title="Show / Hide password">
+                                <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                            </button>
+                        </div>
+
+                        <!-- Password Strength Meter -->
+                        <div class="password-strength-bar">
+                            <div class="password-strength-fill" id="strengthFill"></div>
+                        </div>
+
+                        <div class="invalid-feedback" id="passwordFeedback">
+                            Password must be at least 6 characters.
+                        </div>
+
+                        <div class="small text-muted mt-1" id="strengthText">
+                            Min. 6 characters
+                        </div>
+                    </div>
+
+                    <!-- 5. Confirm Password -->
+                    <div class="col-md-6">
+                        <label for="confirm_password" class="form-label">
+                            Confirm Password <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="input-group">
+                            <span class="input-group-text input-icon border-end-0">
+                                <i class="bi bi-shield-lock-fill"></i>
+                            </span>
+
+                            <input
+                                type="password"
+                                class="form-control border-start-0 border-end-0"
+                                id="confirm_password"
+                                name="confirm_password"
+                                placeholder="Re-enter password"
+                                autocomplete="new-password"
+                                required>
+
+                            <button
+                                type="button"
+                                class="password-toggle-btn rounded-end"
+                                id="toggleConfirmPassword"
+                                aria-label="Toggle confirm password visibility"
+                                title="Show / Hide password">
+                                <i class="bi bi-eye" id="toggleConfirmPasswordIcon"></i>
+                            </button>
+                        </div>
+
+                        <div class="invalid-feedback" id="confirmPasswordFeedback">
+                            Passwords do not match.
+                        </div>
+
+                        <div class="valid-feedback" id="confirmPasswordSuccessFeedback">
+                            Passwords match!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campus Terms Checkbox -->
+                <div class="mb-4 form-check">
+                    <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="termsCheck"
+                        name="terms_accepted"
+                        value="true"
+                        required>
+
+                    <label class="form-check-label small text-muted" for="termsCheck">
+                        I confirm that I am a college student/staff member and agree to follow campus lost &amp; found conduct guidelines.
+                    </label>
+
+                    <div class="invalid-feedback" id="termsFeedback">
+                        You must accept the terms before creating an account.
+                    </div>
+                </div>
+
+                <!-- Register Button -->
+                <button
+                    type="submit"
+                    id="registerSubmitBtn"
+                    class="btn btn-primary w-100 py-2 fw-semibold shadow-sm mb-3">
+
+                    <i class="bi bi-person-check me-1"></i> Register Account
+                </button>
+
+            </form>
+
+            <!-- Link to Login Page -->
+            <div class="text-center pt-3 border-top">
+                <p class="small text-muted mb-0">
+                    Already have an account?
+
+                    <a href="{{ url_for('login_page') }}"
+                       class="text-primary fw-semibold text-decoration-none">
+
+                        Sign In here <i class="bi bi-arrow-right-short"></i>
+                    </a>
+                </p>
+            </div>
+
         </div>
-
-        <!-- 2. College Email ID (exact field: email) -->
-        <div class="mb-3">
-          <label for="email" class="form-label">
-            College Email ID <span class="text-danger">*</span>
-          </label>
-          <div class="input-group">
-            <span class="input-group-text input-icon border-end-0">
-              <i class="bi bi-envelope-at-fill"></i>
-            </span>
-            <input 
-              type="email" 
-              class="form-control border-start-0" 
-              id="email" 
-              name="email" 
-              placeholder="student@college.edu" 
-              autocomplete="email"
-              required>
-          </div>
-          <div class="invalid-feedback" id="emailFeedback">
-            Please enter a valid college email address.
-          </div>
-          <div class="form-text text-muted small">
-            Official campus email used for account verification and recovery.
-          </div>
-        </div>
-
-        <!-- 3. Phone Number (exact field: phone_number) -->
-        <div class="mb-3">
-          <label for="phone_number" class="form-label">
-            Phone Number <span class="text-danger">*</span>
-          </label>
-          <div class="input-group">
-            <span class="input-group-text input-icon border-end-0">
-              <i class="bi bi-telephone-fill"></i>
-            </span>
-            <input 
-              type="tel" 
-              class="form-control border-start-0" 
-              id="phone_number" 
-              name="phone_number" 
-              placeholder="10-digit mobile number (e.g. 9876543210)" 
-              autocomplete="tel"
-              maxlength="10"
-              required>
-          </div>
-          <div class="invalid-feedback" id="phoneFeedback">
-            Please enter a valid 10-digit phone number.
-          </div>
-          <div class="form-text text-muted small">
-            Contact number for security handover notifications.
-          </div>
-        </div>
-
-        <!-- Password and Confirm Password Row -->
-        <div class="row g-3 mb-3">
-          <!-- 4. Password (exact field: password) -->
-          <div class="col-md-6">
-            <label for="password" class="form-label">
-              Password <span class="text-danger">*</span>
-            </label>
-            <div class="input-group">
-              <span class="input-group-text input-icon border-end-0">
-                <i class="bi bi-lock-fill"></i>
-              </span>
-              <input 
-                type="password" 
-                class="form-control border-start-0 border-end-0" 
-                id="password" 
-                name="password" 
-                placeholder="At least 6 characters" 
-                minlength="6"
-                autocomplete="new-password"
-                required>
-              <button 
-                type="button" 
-                class="password-toggle-btn rounded-end" 
-                id="togglePassword" 
-                aria-label="Toggle password visibility"
-                title="Show / Hide password">
-                <i class="bi bi-eye" id="togglePasswordIcon"></i>
-              </button>
-            </div>
-            <!-- Strength meter bar -->
-            <div class="password-strength-bar">
-              <div class="password-strength-fill" id="strengthFill"></div>
-            </div>
-            <div class="invalid-feedback" id="passwordFeedback">
-              Password must be at least 6 characters.
-            </div>
-            <div class="small text-muted mt-1" id="strengthText">Min. 6 characters</div>
-          </div>
-
-          <!-- 5. Confirm Password (Frontend validation only: confirm_password) -->
-          <div class="col-md-6">
-            <label for="confirm_password" class="form-label">
-              Confirm Password <span class="text-danger">*</span>
-            </label>
-            <div class="input-group">
-              <span class="input-group-text input-icon border-end-0">
-                <i class="bi bi-shield-lock-fill"></i>
-              </span>
-              <input 
-                type="password" 
-                class="form-control border-start-0 border-end-0" 
-                id="confirm_password" 
-                name="confirm_password" 
-                placeholder="Re-enter password" 
-                autocomplete="new-password"
-                required>
-              <button 
-                type="button" 
-                class="password-toggle-btn rounded-end" 
-                id="toggleConfirmPassword" 
-                aria-label="Toggle confirm password visibility"
-                title="Show / Hide password">
-                <i class="bi bi-eye" id="toggleConfirmPasswordIcon"></i>
-              </button>
-            </div>
-            <div class="invalid-feedback" id="confirmPasswordFeedback">
-              Passwords do not match.
-            </div>
-            <div class="valid-feedback" id="confirmPasswordSuccessFeedback">
-              Passwords match!
-            </div>
-          </div>
-        </div>
-
-        <!-- Campus Terms Checkbox -->
-        <div class="mb-4 form-check">
-          <input type="checkbox" class="form-check-input" id="termsCheck" required>
-          <label class="form-check-label small text-muted" for="termsCheck">
-            I confirm that I am a college student/staff member and agree to follow campus lost &amp; found conduct guidelines.
-          </label>
-          <div class="invalid-feedback" id="termsFeedback">
-            You must accept the terms before creating an account.
-          </div>
-        </div>
-
-        <!-- Register Button -->
-        <button type="submit" id="registerSubmitBtn" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm mb-3">
-          <i class="bi bi-person-check me-1"></i> Register Account
-        </button>
-      </form>
-
-      <!-- Link to Login page -->
-      <div class="text-center pt-3 border-top">
-        <p class="small text-muted mb-0">
-          Already have an account? 
-          <a href="{{ url_for('login') if url_for is defined else 'login.html' }}" class="text-primary fw-semibold text-decoration-none">
-            Sign In here <i class="bi bi-arrow-right-short"></i>
-          </a>
-        </p>
-      </div>
     </div>
-  </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<!-- Pure JavaScript Form & Password Confirmation Validation -->
-<script src="{{ url_for('static', filename='js/validation.js') if url_for is defined else '../static/js/validation.js' }}"></script>
+
+<!-- Existing Form Validation JavaScript -->
+<script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+
 {% endblock %}
