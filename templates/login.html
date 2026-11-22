@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Login - FindIt Campus Lost & Found{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="auth-wrapper" style="max-width: 480px;">
+    <div class="auth-card">
+      <!-- Header Branding matching homepage and register design -->
+      <div class="text-center mb-4">
+        <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-semibold mb-2">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Student &amp; Staff Login
+        </span>
+        <h3 class="fw-bold text-dark mb-1">Welcome Back</h3>
+        <p class="text-muted small">
+          Sign in to report lost items, view your claims, and manage listings.
+        </p>
+      </div>
+
+      <!-- Login Form with exact backend field names: email and password -->
+      <form id="loginForm" action="{{ url_for('login') if url_for is defined else 'login.html' }}" method="POST" novalidate>
+        
+        <!-- 1. College Email ID (exact field: email) -->
+        <div class="mb-3">
+          <label for="email" class="form-label">
+            College Email ID <span class="text-danger">*</span>
+          </label>
+          <div class="input-group">
+            <span class="input-group-text input-icon border-end-0">
+              <i class="bi bi-envelope-at-fill"></i>
+            </span>
+            <input 
+              type="email" 
+              class="form-control border-start-0" 
+              id="email" 
+              name="email" 
+              placeholder="student@college.edu" 
+              autocomplete="email"
+              required>
+          </div>
+          <div class="invalid-feedback" id="loginEmailFeedback">
+            Please enter your registered college email.
+          </div>
+        </div>
+
+        <!-- 2. Password with Show/Hide Eye Toggle (exact field: password) -->
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <label for="password" class="form-label mb-0">
+              Password <span class="text-danger">*</span>
+            </label>
+            <!-- 4. Forgot Password link (UI Modal Trigger) -->
+            <a href="#" class="small text-primary text-decoration-none fw-semibold" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+              Forgot password?
+            </a>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text input-icon border-end-0">
+              <i class="bi bi-lock-fill"></i>
+            </span>
+            <input 
+              type="password" 
+              class="form-control border-start-0 border-end-0" 
+              id="password" 
+              name="password" 
+              placeholder="Enter your password" 
+              autocomplete="current-password"
+              required>
+            <button 
+              type="button" 
+              class="password-toggle-btn rounded-end" 
+              data-toggle="password" 
+              data-target="password" 
+              aria-label="Toggle password visibility" 
+              title="Show / Hide password">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+          <div class="invalid-feedback" id="loginPasswordFeedback">
+            Please enter your password.
+          </div>
+        </div>
+
+        <!-- 3. Remember Me Checkbox -->
+        <div class="mb-4 d-flex justify-content-between align-items-center">
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="rememberMe" name="remember_me">
+            <label class="form-check-label small text-muted" for="rememberMe">
+              Remember me on this device
+            </label>
+          </div>
+        </div>
+
+        <!-- 5. Login Button -->
+        <button type="submit" id="loginSubmitBtn" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm mb-3">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Account
+        </button>
+      </form>
+
+      <!-- 6. Link to Register page -->
+      <div class="text-center pt-3 border-top">
+        <p class="small text-muted mb-0">
+          Don't have an account yet? 
+          <a href="{{ url_for('register') if url_for is defined else 'register.html' }}" class="text-primary fw-semibold text-decoration-none">
+            Create an account here <i class="bi bi-arrow-right-short"></i>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =======================================================================
+     Forgot Password Modal (UI Guide for Campus Portal)
+     ======================================================================= -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header border-bottom">
+        <h5 class="modal-title fw-bold text-dark" id="forgotPasswordModalLabel">
+          <i class="bi bi-key-fill text-primary me-2"></i> Reset Account Password
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <p class="text-muted small mb-3">
+          Enter your registered college email address below. We'll send instructions to reset your FindIt portal access.
+        </p>
+        <div class="mb-3">
+          <label for="resetEmail" class="form-label small fw-semibold">College Email ID</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-envelope"></i></span>
+            <input type="email" class="form-control border-start-0" id="resetEmail" placeholder="student@college.edu">
+          </div>
+        </div>
+        <div class="alert alert-info py-2 px-3 small d-flex align-items-center gap-2 mb-0">
+          <i class="bi bi-info-circle-fill text-primary"></i>
+          <div>
+            You can also reset your password physically by visiting the <strong>Campus Security Desk (Room 102)</strong> with your college ID.
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-top bg-light-subtle">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary btn-sm px-3 fw-semibold" onclick="alert('Password reset instructions have been sent to your college email (Demo UI).');" data-bs-dismiss="modal">
+          <i class="bi bi-send me-1"></i> Send Reset Link
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Simple client-side validation guard for Login form
+  document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.getElementById("loginForm");
+    if (!loginForm) return;
+
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+
+    loginForm.addEventListener("submit", (e) => {
+      let isValid = true;
+
+      // Email check
+      if (!emailInput.value.trim() || !emailInput.value.includes("@")) {
+        emailInput.classList.add("is-invalid");
+        isValid = false;
+      } else {
+        emailInput.classList.remove("is-invalid");
+      }
+
+      // Password check
+      if (!passwordInput.value) {
+        passwordInput.classList.add("is-invalid");
+        isValid = false;
+      } else {
+        passwordInput.classList.remove("is-invalid");
+      }
+
+      if (!isValid) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
+
+    // Clear invalid state on typing
+    emailInput.addEventListener("input", () => emailInput.classList.remove("is-invalid"));
+    passwordInput.addEventListener("input", () => passwordInput.classList.remove("is-invalid"));
+  });
+</script>
+{% endblock %}

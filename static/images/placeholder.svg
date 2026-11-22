@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" fill="none">
+  <rect width="400" height="300" fill="#F1F5F9" />
+  <circle cx="200" cy="130" r="48" fill="#E2E8F0" />
+  <path d="M185 130C185 121.716 191.716 115 200 115C208.284 115 215 121.716 215 130C215 138.284 208.284 145 200 145" stroke="#94A3B8" stroke-width="4" stroke-linecap="round" />
+  <circle cx="200" cy="158" r="3" fill="#94A3B8" />
+  <rect x="175" y="90" width="50" height="15" rx="4" fill="#CBD5E1" opacity="0.6" />
+  <text x="200" y="210" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="600" fill="#94A3B8">No Image Uploaded</text>
+  <text x="200" y="230" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="11" fill="#CBD5E1">FindIt Campus Portal</text>
+</svg>

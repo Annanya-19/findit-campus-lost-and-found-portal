@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Items - FindIt Campus Lost & Found</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons 1.11.3 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom Stylesheet (Static Asset) -->
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+  <!-- =======================================================================
+       Navigation Bar (FindIt Brand)
+       ======================================================================= -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-2">
+    <div class="container">
+      <a class="navbar-brand navbar-brand-custom" href="preview.html">
+        <i class="bi bi-geo-alt-fill text-primary"></i>
+        <span>Find<span class="text-primary">It</span></span>
+        <span class="brand-badge d-none d-sm-inline">Campus Portal</span>
+      </a>
+
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+          <li class="nav-item">
+            <a class="nav-link" href="preview.html">
+              <i class="bi bi-house-door me-1"></i> Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="preview-browse.html">
+              <i class="bi bi-search me-1"></i> Browse Items
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="preview-report.html">
+              <i class="bi bi-plus-circle me-1"></i> Report Item
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="preview-my-claims.html">
+              <i class="bi bi-card-checklist me-1"></i> My Claims
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="templates/admin-dashboard.html">
+              <i class="bi bi-shield-lock me-1"></i> Admin
+            </a>
+          </li>
+        </ul>
+
+        <!-- Right Side Auth Links -->
+        <div class="d-flex align-items-center gap-2">
+          <a href="preview-login.html" class="btn btn-outline-primary btn-sm px-3">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Login
+          </a>
+          <a href="preview-register.html" class="btn btn-primary btn-sm px-3">
+            <i class="bi bi-person-plus me-1"></i> Register
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =======================================================================
+       Main Browse Content
+       ======================================================================= -->
+  <main class="py-4">
+    <div class="container">
+      <!-- Page Header -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-semibold mb-2">
+            <i class="bi bi-collection-fill me-1"></i> Campus Repository
+          </span>
+          <h2 class="fw-bold mb-1 text-dark">Browse Campus Items</h2>
+          <p class="text-muted mb-0">Search, filter, and discover reported lost and found belongings across college grounds.</p>
+        </div>
+        <a href="preview-report.html" class="btn btn-primary btn-sm px-3 shadow-sm">
+          <i class="bi bi-plus-circle me-1"></i> Report an Item
+        </a>
+      </div>
+
+      <!-- Search & Filter Control Card -->
+      <div class="card border-0 shadow-sm p-4 mb-4 rounded-4 bg-white">
+        <form id="filterForm" onsubmit="return false;">
+          <div class="row g-3">
+            <!-- 1. Search Bar (Name or Keyword) -->
+            <div class="col-lg-4 col-md-6">
+              <label class="form-label small fw-semibold text-muted mb-1">Search by Keyword</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0 text-muted">
+                  <i class="bi bi-search"></i>
+                </span>
+                <input 
+                  type="text" 
+                  id="searchInput" 
+                  class="form-control border-start-0" 
+                  placeholder="e.g. AirPods, ID card, keys, bottle...">
+              </div>
+            </div>
+
+            <!-- 2. Lost / Found Filter (item_type) -->
+            <div class="col-lg-2 col-md-6">
+              <label class="form-label small fw-semibold text-muted mb-1">Status / Type</label>
+              <select id="typeFilter" class="form-select">
+                <option value="">All Types</option>
+                <option value="Lost">Lost Only</option>
+                <option value="Found">Found Only</option>
+              </select>
+            </div>
+
+            <!-- 3. Category Filter (exact 8 options) -->
+            <div class="col-lg-3 col-md-6">
+              <label class="form-label small fw-semibold text-muted mb-1">Category</label>
+              <select id="categoryFilter" class="form-select">
+                <option value="">All Categories</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Documents / ID Cards">Documents / ID Cards</option>
+                <option value="Bags">Bags</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Books / Stationery">Books / Stationery</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Keys">Keys</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- 4. Location Filter -->
+            <div class="col-lg-3 col-md-6">
+              <label class="form-label small fw-semibold text-muted mb-1">Campus Location</label>
+              <select id="locationFilter" class="form-select">
+                <option value="">All Locations</option>
+                <option value="Library">Central Library</option>
+                <option value="Cafeteria">Cafeteria / Canteen</option>
+                <option value="Auditorium">Auditorium</option>
+                <option value="Sports">Sports Ground / Gym</option>
+                <option value="Academic">Academic Blocks / Classrooms</option>
+                <option value="Parking">Student Parking</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Action Buttons Row -->
+          <div class="d-flex justify-content-between align-items-center pt-3 mt-3 border-top flex-wrap gap-2">
+            <div class="text-muted small">
+              Results update in real-time as you type or change filters.
+            </div>
+            <div class="d-flex gap-2">
+              <button type="button" id="clearFiltersBtn" class="btn btn-outline-secondary btn-sm px-3">
+                <i class="bi bi-x-circle me-1"></i> Clear Filters
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Items Counter & Sort Options Toolbar -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="text-muted small">
+          Showing <span id="itemCount" class="fw-bold text-dark fs-6">8</span> reported campus items
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="small text-muted d-none d-sm-inline">Sort:</span>
+          <select id="sortOrder" class="form-select form-select-sm w-auto">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           Items Responsive Grid Layout (Cards with exact required fields)
+           ===================================================================== -->
+      <div class="row g-4" id="itemsGrid">
+        <!-- Item 1 (Lost) -->
+        <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Lost" data-category="Electronics" data-location="Library">
+          <div class="item-card">
+            <div class="item-card-img-wrapper">
+              <img src="static/images/placeholder.svg" alt="AirPods Pro">
+              <div class="item-card-badge-overlay">
+                <span class="badge-lost"><i class="bi bi-question-circle me-1"></i> Lost</span>
+              </div>
+            </div>
+            <div class="item-card-body">
+              <span class="category-pill mb-2 align-self-start">Electronics</span>
+              <h5 class="item-card-title">AirPods Pro (2nd Gen)</h5>
+              <p class="item-card-desc">White charging case with a small Pikachu sticker on the back. Left pod is slightly scratched.</p>
+              <div class="item-card-meta">
+                <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Central Library 2nd Floor</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-calendar3 me-1"></i> Nov 20, 2026</span>
+                  <a href="preview-details.html?id=1" class="btn btn-sm btn-outline-primary py-0">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 (Found) -->
+        <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Found" data-category="Documents / ID Cards" data-location="Cafeteria">
+          <div class="item-card">
+            <div class="item-card-img-wrapper">
+              <img src="static/images/placeholder.svg" alt="Student ID Card">
+              <div class="item-card-badge-overlay">
+                <span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found</span>
+              </div>
+            </div>
+            <div class="item-card-body">
+              <span class="category-pill mb-2 align-self-start">Documents / ID Cards</span>
+              <h5 class="item-card-title">Student ID Card &amp; Metro Pass</h5>
+              <p class="item-card-desc">College ID Card belonging to CS Department along with a blue metro smart card inside a transparent holder.</p>
+              <div class="item-card-meta">
+                <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Cafeteria Counter 3</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-calendar3 me-1"></i> Nov 21, 2026</span>
+                  <a href="preview-details.html?id=2" class="btn btn-sm btn-outline-primary py-0">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 (Lost) -->
+        <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Lost" data-category="Bags" data-location="Auditorium">
+          <div class="item-card">
+            <div class="item-card-img-wrapper">
+              <img src="static/images/placeholder.svg" alt="Backpack">
+              <div class="item-card-badge-overlay">
+                <span class="badge-lost"><i class="bi bi-question-circle me-1"></i> Lost</span>
+              </div>
+            </div>
+            <div class="item-card-body">
+              <span class="category-pill mb-2 align-self-start">Bags</span>
+              <h5 class="item-card-title">Black Wildcraft Laptop Backpack</h5>
+              <p class="item-card-desc">Contains notebooks, a blue pencil pouch, and a water bottle in the side pocket. Left at seating area.</p>
+              <div class="item-card-meta">
+                <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Auditorium Main Lobby</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-calendar3 me-1"></i> Nov 19, 2026</span>
+                  <a href="preview-details.html?id=3" class="btn btn-sm btn-outline-primary py-0">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 (Found) -->
+        <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Found" data-category="Clothing" data-location="Sports">
+          <div class="item-card">
+            <div class="item-card-img-wrapper">
+              <img src="static/images/placeholder.svg" alt="Hoodie">
+              <div class="item-card-badge-overlay">
+                <span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found</span>
+              </div>
+            </div>
+            <div class="item-card-body">
+              <span class="category-pill mb-2 align-self-start">Clothing</span>
+              <h5 class="item-card-title">Navy Blue Fest Hoodie (Size L)</h5>
+              <p class="item-card-desc">Annual Fest 2025 commemorative hoodie with embroidered logo on chest.</p>
+              <div class="item-card-meta">
+                <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Sports Ground Bleachers</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-calendar3 me-1"></i> Nov 21, 2026</span>
+                  <a href="preview-details.html?id=4" class="btn btn-sm btn-outline-primary py-0">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 5 (Lost) -->
+        <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Lost" data-category="Books / Stationery" data-location="Academic">
+          <div class="item-card">
+            <div class="item-card-img-wrapper">
+              <img src="static/images/placeholder.svg" alt="Maths Book">
+              <div class="item-card-badge-overlay">
+                <span class="badge-lost"><i class="bi bi-question-circle me-1"></i> Lost</span>
+              </div>
+            </div>
+            <div class="item-card-body">
+              <span class="category-pill mb-2 align-self-start">Books / Stationery</span>
+              <h5 class="item-card-title">Higher Engineering Mathematics</h5>
+              <p class="item-card-desc">Hardcover textbook with handwritten notes and yellow highlighter markings in Unit 3.</p>
+              <div class="item-card-meta">
+                <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Room 304, Academic Block B</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-calendar3 me-1"></i> Nov 18, 2026</span>
+                  <a href="preview-details.html?id=5" class="btn btn-sm btn-outline-primary py-0">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 6 (Found) -->
+        <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Found" data-category="Accessories" data-location="Cafeteria">
+          <div class="item-card">
+            <div class="item-card-img-wrapper">
+              <img src="static/images/placeholder.svg" alt="Watch">
+              <div class="item-card-badge-overlay">
+                <span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found</span>
+              </div>
+            </div>
+            <div class="item-card-body">
+              <span class="category-pill mb-2 align-self-start">Accessories</span>
+              <h5 class="item-card-title">Silver Fossil Chronograph Watch</h5>
+              <p class="item-card-desc">Stainless steel strap, dark blue dial with slight scratch at the 4 o'clock mark.</p>
+              <div class="item-card-meta">
+                <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Restroom near Canteen</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-calendar3 me-1"></i> Nov 22, 2026</span>
+                  <a href="preview-details.html?id=6" class="btn btn-sm btn-outline-primary py-0">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 7 (Lost) -->
+        <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Lost" data-category="Keys" data-location="Parking">
+          <div class="item-card">
+            <div class="item-card-img-wrapper">
+              <img src="static/images/placeholder.svg" alt="Keys">
+              <div class="item-card-badge-overlay">
+                <span class="badge-lost"><i class="bi bi-question-circle me-1"></i> Lost</span>
+              </div>
+            </div>
+            <div class="item-card-body">
+              <span class="category-pill mb-2 align-self-start">Keys</span>
+              <h5 class="item-card-title">Honda Bike Key on Lanyard</h5>
+              <p class="item-card-desc">Single bike key attached to a red 'Remove Before Flight' woven fabric keychain tag.</p>
+              <div class="item-card-meta">
+                <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Student Parking Lot (Sector 2)</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-calendar3 me-1"></i> Nov 21, 2026</span>
+                  <a href="preview-details.html?id=7" class="btn btn-sm btn-outline-primary py-0">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 8 (Found) -->
+        <div class="col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" data-type="Found" data-category="Other" data-location="Sports">
+          <div class="item-card">
+            <div class="item-card-img-wrapper">
+              <img src="static/images/placeholder.svg" alt="Flask">
+              <div class="item-card-badge-overlay">
+                <span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found</span>
+              </div>
+            </div>
+            <div class="item-card-body">
+              <span class="category-pill mb-2 align-self-start">Other</span>
+              <h5 class="item-card-title">Milton Insulated Steel Flask</h5>
+              <p class="item-card-desc">Matte olive green water bottle (750ml) with campus sports club vinyl sticker.</p>
+              <div class="item-card-meta">
+                <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Gymnasium Bench</div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span><i class="bi bi-calendar3 me-1"></i> Nov 20, 2026</span>
+                  <a href="preview-details.html?id=8" class="btn btn-sm btn-outline-primary py-0">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =====================================================================
+           Empty State Container (When no items match search/filter)
+           ===================================================================== -->
+      <div id="emptyState" class="empty-state-card d-none my-4">
+        <div class="empty-state-icon">
+          <i class="bi bi-search"></i>
+        </div>
+        <h4 class="fw-bold text-dark mb-1">No Matching Items Found</h4>
+        <p class="text-muted small mb-3 max-w-500 mx-auto">
+          We couldn't find any campus items matching your search criteria. Try removing filters or checking back later.
+        </p>
+        <button type="button" id="resetEmptyBtn" class="btn btn-outline-primary btn-sm px-4">
+          <i class="bi bi-arrow-counterclockwise me-1"></i> Reset All Filters
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- =======================================================================
+       Footer (FindIt Theme)
+       ======================================================================= -->
+  <footer>
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-2 text-white">
+            <i class="bi bi-geo-alt-fill text-primary fs-4"></i>
+            <span class="fs-5 fw-bold">Find<span class="text-primary">It</span></span>
+          </div>
+          <p class="small text-muted mb-3">
+            The official campus lost and found portal designed to help students, faculty, and campus security quickly report, find, and reclaim lost personal belongings.
+          </p>
+          <div class="d-flex gap-2">
+            <span class="badge bg-secondary">Campus Safe</span>
+            <span class="badge bg-secondary">Verified Claims</span>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+          <ul class="list-unstyled small mb-0">
+            <li class="mb-2"><a href="preview.html">Home</a></li>
+            <li class="mb-2"><a href="preview-browse.html">Browse Items</a></li>
+            <li class="mb-2"><a href="preview-report.html">Report Item</a></li>
+            <li class="mb-2"><a href="preview-login.html">Login</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Popular Categories</h6>
+          <ul class="list-unstyled small mb-0">
+            <li class="mb-2"><a href="preview-browse.html?category=Electronics">Electronics &amp; Chargers</a></li>
+            <li class="mb-2"><a href="preview-browse.html?category=Documents%20%2F%20ID%20Cards">College ID Cards &amp; Wallets</a></li>
+            <li class="mb-2"><a href="preview-browse.html?category=Keys">Keys &amp; Keychains</a></li>
+            <li class="mb-2"><a href="preview-browse.html?category=Books%20%2F%20Stationery">Books &amp; Calculators</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Campus Helpdesk</h6>
+          <p class="small text-muted mb-2">
+            <i class="bi bi-building me-2"></i> Campus Security Main Office, Room 102
+          </p>
+          <p class="small text-muted mb-2">
+            <i class="bi bi-envelope me-2"></i> lostandfound@college.edu
+          </p>
+          <p class="small text-muted mb-0">
+            <i class="bi bi-clock me-2"></i> Mon - Fri: 9:00 AM - 5:00 PM
+          </p>
+        </div>
+      </div>
+
+      <div class="border-top border-secondary pt-3 text-center small text-muted">
+        &copy; 2026 FindIt – Campus Lost &amp; Found Portal. Built with HTML, CSS, JavaScript, and Bootstrap 5.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Main Global JavaScript -->
+  <script src="static/js/main.js"></script>
+
+  <!-- Interactive Real-time Search & Filter Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const searchInput = document.getElementById("searchInput");
+      const typeFilter = document.getElementById("typeFilter");
+      const categoryFilter = document.getElementById("categoryFilter");
+      const locationFilter = document.getElementById("locationFilter");
+      const clearFiltersBtn = document.getElementById("clearFiltersBtn");
+      const resetEmptyBtn = document.getElementById("resetEmptyBtn");
+      const cardWrappers = document.querySelectorAll(".item-card-wrapper");
+      const itemCountSpan = document.getElementById("itemCount");
+      const emptyState = document.getElementById("emptyState");
+
+      // Read URL query parameters on initial page load
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("category")) {
+        categoryFilter.value = urlParams.get("category");
+      }
+      if (urlParams.get("q")) {
+        searchInput.value = urlParams.get("q");
+      }
+      if (urlParams.get("item_type")) {
+        typeFilter.value = urlParams.get("item_type");
+      }
+      if (urlParams.get("location")) {
+        locationFilter.value = urlParams.get("location");
+      }
+
+      function applyFilters() {
+        const q = searchInput.value.toLowerCase().trim();
+        const type = typeFilter.value;
+        const cat = categoryFilter.value;
+        const loc = locationFilter.value;
+
+        let visibleCount = 0;
+
+        cardWrappers.forEach((card) => {
+          const itemType = card.getAttribute("data-type");
+          const itemCat = card.getAttribute("data-category");
+          const itemLoc = card.getAttribute("data-location");
+          const titleText = card.querySelector(".item-card-title").textContent.toLowerCase();
+          const descText = card.querySelector(".item-card-desc").textContent.toLowerCase();
+          const fullLocationText = card.querySelector(".item-card-meta").textContent.toLowerCase();
+
+          const matchesQuery = !q || titleText.includes(q) || descText.includes(q) || fullLocationText.includes(q);
+          const matchesType = !type || itemType === type;
+          const matchesCat = !cat || itemCat === cat;
+          const matchesLoc = !loc || itemLoc === loc || fullLocationText.includes(loc.toLowerCase());
+
+          if (matchesQuery && matchesType && matchesCat && matchesLoc) {
+            card.classList.remove("d-none");
+            visibleCount++;
+          } else {
+            card.classList.add("d-none");
+          }
+        });
+
+        if (itemCountSpan) itemCountSpan.textContent = visibleCount;
+
+        if (emptyState) {
+          if (visibleCount === 0) {
+            emptyState.classList.remove("d-none");
+          } else {
+            emptyState.classList.add("d-none");
+          }
+        }
+      }
+
+      function clearFilters() {
+        searchInput.value = "";
+        typeFilter.value = "";
+        categoryFilter.value = "";
+        locationFilter.value = "";
+        applyFilters();
+      }
+
+      searchInput.addEventListener("input", applyFilters);
+      typeFilter.addEventListener("change", applyFilters);
+      categoryFilter.addEventListener("change", applyFilters);
+      locationFilter.addEventListener("change", applyFilters);
+
+      if (clearFiltersBtn) clearFiltersBtn.addEventListener("click", clearFilters);
+      if (resetEmptyBtn) resetEmptyBtn.addEventListener("click", clearFilters);
+
+      // Initial execution
+      applyFilters();
+    });
+  </script>
+</body>
+</html>

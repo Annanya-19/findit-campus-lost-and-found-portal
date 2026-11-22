@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+
+{% block title %}FindIt - Campus Lost & Found Management System{% endblock %}
+
+{% block content %}
+<!-- =======================================================================
+     Hero Section
+     ======================================================================= -->
+<section class="hero-section">
+  <div class="container position-relative">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <span class="badge bg-light text-primary px-3 py-2 rounded-pill fw-bold mb-3">
+          <i class="bi bi-mortarboard-fill me-1"></i> Dedicated for College Students &amp; Staff
+        </span>
+        <h1 class="hero-title mb-3">
+          Lost Something on Campus? <br>
+          <span class="text-warning">We'll Help You Find It.</span>
+        </h1>
+        <p class="hero-subtitle mb-4">
+          Report lost belongings, browse found items kept with campus security, and securely claim your property in a few simple steps.
+        </p>
+
+        <!-- Quick Search Bar -->
+        <form action="{{ url_for('browse') if url_for is defined else 'browse.html' }}" method="GET" class="hero-search-box mb-3">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-5">
+              <div class="input-group">
+                <span class="input-group-text bg-transparent border-0 text-muted">
+                  <i class="bi bi-search"></i>
+                </span>
+                <input type="text" name="q" class="form-control border-0 shadow-none ps-0" placeholder="Search item (e.g. ID card, keys)...">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <select name="category" class="form-select border-0 shadow-none text-muted">
+                <option value="">All Categories</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Documents / ID Cards">Documents / ID Cards</option>
+                <option value="Bags">Bags</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Books / Stationery">Books / Stationery</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Keys">Keys</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                Find Item
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Direct CTA Buttons -->
+        <div class="d-flex flex-wrap gap-2 pt-2">
+          <a href="{{ url_for('report_item') if url_for is defined else 'report-item.html' }}?type=Lost" class="btn btn-danger px-4 py-2 fw-semibold shadow-sm">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> Report Lost Item
+          </a>
+          <a href="{{ url_for('report_item') if url_for is defined else 'report-item.html' }}?type=Found" class="btn btn-success px-4 py-2 fw-semibold shadow-sm">
+            <i class="bi bi-check-circle-fill me-2"></i> Report Found Item
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero Visual Stats Card -->
+      <div class="col-lg-5">
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="stat-widget">
+              <div class="stat-icon bg-danger-subtle text-danger">
+                <i class="bi bi-search"></i>
+              </div>
+              <div>
+                <h3 class="fw-bold mb-0 text-dark">48</h3>
+                <span class="small text-muted">Active Lost Items</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="stat-widget">
+              <div class="stat-icon bg-success-subtle text-success">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <div>
+                <h3 class="fw-bold mb-0 text-dark">65</h3>
+                <span class="small text-muted">Found in Custody</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="card border-0 bg-white shadow-sm p-4 rounded-4">
+              <div class="d-flex align-items-center gap-3">
+                <div class="stat-icon bg-primary-subtle text-primary">
+                  <i class="bi bi-heart-fill"></i>
+                </div>
+                <div>
+                  <h4 class="fw-bold mb-0 text-dark">120+ Items Reunited</h4>
+                  <p class="small text-muted mb-0">Helping students recover their precious belongings safely.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =======================================================================
+     Explore by Category (All 8 exact categories)
+     ======================================================================= -->
+<section class="py-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Browse by Category</h2>
+        <p class="text-muted mb-0">Select a category to quickly filter lost and found records.</p>
+      </div>
+      <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}" class="text-decoration-none fw-semibold">
+        View All <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="row row-cols-2 row-cols-md-4 g-3">
+      <div class="col">
+        <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}?category=Electronics" class="category-card">
+          <i class="bi bi-laptop"></i>
+          <span class="fw-semibold small">Electronics</span>
+        </a>
+      </div>
+      <div class="col">
+        <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}?category=Documents%20%2F%20ID%20Cards" class="category-card">
+          <i class="bi bi-person-badge"></i>
+          <span class="fw-semibold small">Documents / ID Cards</span>
+        </a>
+      </div>
+      <div class="col">
+        <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}?category=Bags" class="category-card">
+          <i class="bi bi-backpack"></i>
+          <span class="fw-semibold small">Bags</span>
+        </a>
+      </div>
+      <div class="col">
+        <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}?category=Clothing" class="category-card">
+          <i class="bi bi-tag"></i>
+          <span class="fw-semibold small">Clothing</span>
+        </a>
+      </div>
+      <div class="col">
+        <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}?category=Books%20%2F%20Stationery" class="category-card">
+          <i class="bi bi-book"></i>
+          <span class="fw-semibold small">Books / Stationery</span>
+        </a>
+      </div>
+      <div class="col">
+        <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}?category=Accessories" class="category-card">
+          <i class="bi bi-watch"></i>
+          <span class="fw-semibold small">Accessories</span>
+        </a>
+      </div>
+      <div class="col">
+        <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}?category=Keys" class="category-card">
+          <i class="bi bi-key"></i>
+          <span class="fw-semibold small">Keys</span>
+        </a>
+      </div>
+      <div class="col">
+        <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}?category=Other" class="category-card">
+          <i class="bi bi-box"></i>
+          <span class="fw-semibold small">Other</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =======================================================================
+     Recent Lost & Found Items Feed
+     ======================================================================= -->
+<section class="py-5 bg-white border-top border-bottom">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Recently Reported Items</h2>
+        <p class="text-muted mb-0">Check if someone has already found what you lost or reported your item.</p>
+      </div>
+      <a href="{{ url_for('browse') if url_for is defined else 'browse.html' }}" class="btn btn-outline-primary btn-sm px-3">
+        See All Listings
+      </a>
+    </div>
+
+    <div class="row g-4" id="recentItemsContainer">
+      <!-- Item 1 (Lost) -->
+      <div class="col-md-6 col-lg-3">
+        <div class="item-card">
+          <div class="item-card-img-wrapper">
+            <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="AirPods Pro">
+            <div class="item-card-badge-overlay">
+              <span class="badge-lost"><i class="bi bi-question-circle me-1"></i> Lost</span>
+            </div>
+          </div>
+          <div class="item-card-body">
+            <span class="category-pill mb-2 align-self-start">Electronics</span>
+            <h5 class="item-card-title">AirPods Pro (2nd Gen)</h5>
+            <p class="item-card-desc">White case with Pikachu sticker on back. Left pod is slightly scratched.</p>
+            <div class="item-card-meta">
+              <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Library 2nd Floor</div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-calendar3 me-1"></i> Nov 20, 2026</span>
+                <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=1" class="btn btn-sm btn-outline-primary py-0">Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2 (Found) -->
+      <div class="col-md-6 col-lg-3">
+        <div class="item-card">
+          <div class="item-card-img-wrapper">
+            <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Student ID Card">
+            <div class="item-card-badge-overlay">
+              <span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found</span>
+            </div>
+          </div>
+          <div class="item-card-body">
+            <span class="category-pill mb-2 align-self-start">Documents / ID Cards</span>
+            <h5 class="item-card-title">Student ID &amp; Metro Pass</h5>
+            <p class="item-card-desc">CS Department college ID along with a blue metro smart card in transparent cover.</p>
+            <div class="item-card-meta">
+              <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Cafeteria Counter 3</div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-calendar3 me-1"></i> Nov 21, 2026</span>
+                <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=2" class="btn btn-sm btn-outline-primary py-0">Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3 (Lost) -->
+      <div class="col-md-6 col-lg-3">
+        <div class="item-card">
+          <div class="item-card-img-wrapper">
+            <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Wildcraft Backpack">
+            <div class="item-card-badge-overlay">
+              <span class="badge-lost"><i class="bi bi-question-circle me-1"></i> Lost</span>
+            </div>
+          </div>
+          <div class="item-card-body">
+            <span class="category-pill mb-2 align-self-start">Bags</span>
+            <h5 class="item-card-title">Black Wildcraft Backpack</h5>
+            <p class="item-card-desc">Contains notebooks and blue pencil pouch. Left near auditorium reception.</p>
+            <div class="item-card-meta">
+              <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Auditorium Lobby</div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-calendar3 me-1"></i> Nov 19, 2026</span>
+                <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=3" class="btn btn-sm btn-outline-primary py-0">Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 4 (Found) -->
+      <div class="col-md-6 col-lg-3">
+        <div class="item-card">
+          <div class="item-card-img-wrapper">
+            <img src="{{ url_for('static', filename='images/placeholder.svg') if url_for is defined else '../static/images/placeholder.svg' }}" alt="Bike Key">
+            <div class="item-card-badge-overlay">
+              <span class="badge-found"><i class="bi bi-check-circle me-1"></i> Found</span>
+            </div>
+          </div>
+          <div class="item-card-body">
+            <span class="category-pill mb-2 align-self-start">Keys</span>
+            <h5 class="item-card-title">Honda Bike Key on Lanyard</h5>
+            <p class="item-card-desc">Single bike key with red 'Remove Before Flight' woven fabric keychain.</p>
+            <div class="item-card-meta">
+              <div class="text-truncate mb-1"><i class="bi bi-geo-alt text-primary me-1"></i> Parking Sector 2</div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-calendar3 me-1"></i> Nov 21, 2026</span>
+                <a href="{{ url_for('item_details') if url_for is defined else 'item-details.html' }}?id=4" class="btn btn-sm btn-outline-primary py-0">Details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =======================================================================
+     How It Works Section
+     ======================================================================= -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center max-w-700 mx-auto mb-5">
+      <h2 class="fw-bold">How FindIt Works</h2>
+      <p class="text-muted">A secure and transparent process to reunite students with their belongings.</p>
+    </div>
+
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <div class="p-4 bg-white rounded-4 border h-100 shadow-sm">
+          <div class="stat-icon bg-primary-subtle text-primary mx-auto mb-3 fs-3">
+            <i class="bi bi-pencil-square"></i>
+          </div>
+          <h5 class="fw-bold">1. Post a Report</h5>
+          <p class="text-muted small mb-0">
+            Submit a lost or found report with item name, category, campus location, date, and an optional photo.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="p-4 bg-white rounded-4 border h-100 shadow-sm">
+          <div class="stat-icon bg-warning-subtle text-warning mx-auto mb-3 fs-3">
+            <i class="bi bi-search"></i>
+          </div>
+          <h5 class="fw-bold">2. Search &amp; Match</h5>
+          <p class="text-muted small mb-0">
+            Browse items by category, campus buildings, or keywords to discover matching posts immediately.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="p-4 bg-white rounded-4 border h-100 shadow-sm">
+          <div class="stat-icon bg-success-subtle text-success mx-auto mb-3 fs-3">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h5 class="fw-bold">3. Verify &amp; Reclaim</h5>
+          <p class="text-muted small mb-0">
+            Submit a claim message with proof of ownership (e.g. serial number, unique marks) and pick up your item safely.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
