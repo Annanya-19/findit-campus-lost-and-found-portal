@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Item - FindIt Campus Lost & Found</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons 1.11.3 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom Stylesheet (Static Asset) -->
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+  <!-- =======================================================================
+       Navigation Bar (FindIt Brand)
+       ======================================================================= -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-2">
+    <div class="container">
+      <a class="navbar-brand navbar-brand-custom" href="preview.html">
+        <i class="bi bi-geo-alt-fill text-primary"></i>
+        <span>Find<span class="text-primary">It</span></span>
+        <span class="brand-badge d-none d-sm-inline">Campus Portal</span>
+      </a>
+
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+          <li class="nav-item">
+            <a class="nav-link" href="preview.html">
+              <i class="bi bi-house-door me-1"></i> Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="preview-browse.html">
+              <i class="bi bi-search me-1"></i> Browse Items
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="preview-report.html">
+              <i class="bi bi-plus-circle me-1"></i> Report Item
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="preview-my-claims.html">
+              <i class="bi bi-card-checklist me-1"></i> My Claims
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="templates/admin-dashboard.html">
+              <i class="bi bi-shield-lock me-1"></i> Admin
+            </a>
+          </li>
+        </ul>
+
+        <!-- Right Side Auth Links -->
+        <div class="d-flex align-items-center gap-2">
+          <a href="preview-login.html" class="btn btn-outline-primary btn-sm px-3">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Login
+          </a>
+          <a href="preview-register.html" class="btn btn-primary btn-sm px-3">
+            <i class="bi bi-person-plus me-1"></i> Register
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =======================================================================
+       Main Report Item Form Content
+       ======================================================================= -->
+  <main class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+          
+          <!-- Card Container matching FindIt design -->
+          <div class="report-card">
+            
+            <!-- Header Branding matching homepage, registration and login design -->
+            <div class="text-center mb-4">
+              <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-semibold mb-2">
+                <i class="bi bi-megaphone-fill me-1"></i> Campus Incident Form
+              </span>
+              <h3 class="fw-bold text-dark mb-1">Report a Lost or Found Item</h3>
+              <p class="text-muted small">
+                Submit details to alert fellow students and campus security. Accurate information helps reunite items faster.
+              </p>
+            </div>
+
+            <!-- Reporting Form (Exact backend field names & multipart for image upload) -->
+            <form id="reportForm" action="#" method="POST" enctype="multipart/form-data" novalidate>
+              
+              <!-- 1. Report Type Selection (item_type: Lost or Found) -->
+              <div class="mb-4">
+                <label class="form-label d-block text-center fw-bold text-dark mb-2">
+                  Select Report Type <span class="text-danger">*</span>
+                </label>
+                <div class="d-flex justify-content-center gap-3 item-type-toggle">
+                  <input type="radio" class="btn-check" name="item_type" id="typeLost" value="Lost" checked>
+                  <label class="btn btn-outline-danger px-4 py-2 fw-semibold rounded-pill" for="typeLost">
+                    <i class="bi bi-question-circle-fill me-1"></i> I Lost an Item
+                  </label>
+
+                  <input type="radio" class="btn-check" name="item_type" id="typeFound" value="Found">
+                  <label class="btn btn-outline-success px-4 py-2 fw-semibold rounded-pill" for="typeFound">
+                    <i class="bi bi-check-circle-fill me-1"></i> I Found an Item
+                  </label>
+                </div>
+              </div>
+
+              <hr class="my-4 text-muted opacity-25">
+
+              <!-- 2. Item Name (exact field: item_name) -->
+              <div class="mb-3">
+                <label for="item_name" class="form-label">
+                  Item Name <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text input-icon border-end-0">
+                    <i class="bi bi-tag-fill"></i>
+                  </span>
+                  <input 
+                    type="text" 
+                    class="form-control border-start-0" 
+                    id="item_name" 
+                    name="item_name" 
+                    placeholder="e.g. Blue Hydro Flask, HP Laptop Charger, Honda Bike Key" 
+                    required>
+                </div>
+                <div class="invalid-feedback" id="itemNameFeedback">
+                  Please enter the item name (at least 2 characters).
+                </div>
+                <div class="form-text text-muted small">
+                  Be specific; include brand or color if known.
+                </div>
+              </div>
+
+              <!-- Category & Date Row -->
+              <div class="row g-3 mb-3">
+                <!-- 3. Category Dropdown (exact field: category with all 8 required options) -->
+                <div class="col-md-6">
+                  <label for="category" class="form-label">
+                    Category <span class="text-danger">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text input-icon border-end-0">
+                      <i class="bi bi-grid-fill"></i>
+                    </span>
+                    <select class="form-select border-start-0" id="category" name="category" required>
+                      <option value="" disabled selected>Choose a category...</option>
+                      <option value="Electronics">Electronics</option>
+                      <option value="Documents / ID Cards">Documents / ID Cards</option>
+                      <option value="Bags">Bags</option>
+                      <option value="Clothing">Clothing</option>
+                      <option value="Books / Stationery">Books / Stationery</option>
+                      <option value="Accessories">Accessories</option>
+                      <option value="Keys">Keys</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div class="invalid-feedback" id="categoryFeedback">
+                    Please select a valid category.
+                  </div>
+                </div>
+
+                <!-- 4. Date Lost / Found (exact field: date_lost_found) -->
+                <div class="col-md-6">
+                  <label for="date_lost_found" class="form-label" id="dateLabel">
+                    Date Lost <span class="text-danger">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text input-icon border-end-0">
+                      <i class="bi bi-calendar3"></i>
+                    </span>
+                    <input 
+                      type="date" 
+                      class="form-control border-start-0" 
+                      id="date_lost_found" 
+                      name="date_lost_found" 
+                      required>
+                  </div>
+                  <div class="invalid-feedback" id="dateFeedback">
+                    Please select a valid date.
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5. Location (exact field: location) -->
+              <div class="mb-3">
+                <label for="location" class="form-label" id="locationLabel">
+                  Location where you lost it <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text input-icon border-end-0">
+                    <i class="bi bi-geo-alt-fill"></i>
+                  </span>
+                  <input 
+                    type="text" 
+                    class="form-control border-start-0" 
+                    id="location" 
+                    name="location" 
+                    placeholder="e.g. Central Library 2nd Floor, Table 14" 
+                    required>
+                </div>
+                <div class="invalid-feedback" id="locationFeedback">
+                  Please enter the campus location (at least 3 characters).
+                </div>
+                <div class="form-text text-muted small" id="locationHelp">
+                  E.g., Central Library 2nd Floor, Room 302, Cafeteria
+                </div>
+              </div>
+
+              <!-- 6. Item Description (exact field: item_description) -->
+              <div class="mb-4">
+                <label for="item_description" class="form-label">
+                  Item Description <span class="text-danger">*</span>
+                </label>
+                <textarea 
+                  class="form-control" 
+                  id="item_description" 
+                  name="item_description" 
+                  rows="4" 
+                  placeholder="Describe distinctive marks, color, scratches, stickers, contents, or manufacturer details..." 
+                  required></textarea>
+                <div class="invalid-feedback" id="descriptionFeedback">
+                  Please provide a detailed description (minimum 10 characters).
+                </div>
+                <div class="form-text text-muted small">
+                  Detailed descriptions help prevent wrongful ownership claims.
+                </div>
+              </div>
+
+              <!-- 7. Image Upload with Live Preview (exact field: image) -->
+              <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <label for="image" class="form-label mb-0">
+                    Item Photo (Optional but recommended)
+                  </label>
+                  <button type="button" class="btn btn-outline-danger btn-sm py-0 d-none" id="removeImageBtn">
+                    <i class="bi bi-x-circle me-1"></i> Remove Image
+                  </button>
+                </div>
+                <input 
+                  type="file" 
+                  class="form-control mb-2" 
+                  id="image" 
+                  name="image" 
+                  accept="image/*">
+                <div class="form-text text-muted small mb-3">
+                  Accepted formats: JPG, PNG, WEBP (Max 5MB).
+                </div>
+
+                <!-- Image Preview Box -->
+                <div class="image-preview-box">
+                  <div id="placeholderPreview" class="text-center text-muted p-3">
+                    <i class="bi bi-cloud-arrow-up fs-1 d-block text-secondary mb-1"></i>
+                    <span class="small">Upload an image to see an instant preview here</span>
+                  </div>
+                  <img id="imagePreview" src="" alt="Item Preview" class="d-none">
+                </div>
+              </div>
+
+              <!-- 8. Terms Checkbox -->
+              <div class="mb-4 form-check">
+                <input type="checkbox" class="form-check-input" id="reportVerificationCheck" required>
+                <label class="form-check-label small text-muted" for="reportVerificationCheck">
+                  I certify that this report is genuine and complies with campus student conduct policies.
+                </label>
+                <div class="invalid-feedback" id="termsFeedback">
+                  You must certify the report accuracy before submitting.
+                </div>
+              </div>
+
+              <!-- 9. Form Action Buttons -->
+              <div class="d-flex flex-wrap justify-content-end align-items-center gap-2 pt-2 border-top">
+                <a href="preview.html" class="btn btn-outline-secondary px-4 py-2">
+                  Cancel
+                </a>
+                <button type="submit" id="reportSubmitBtn" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm">
+                  <i class="bi bi-cloud-arrow-up me-1"></i> Submit Report
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- =======================================================================
+       Footer (Matches FindIt Campus Theme)
+       ======================================================================= -->
+  <footer>
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-2 text-white">
+            <i class="bi bi-geo-alt-fill text-primary fs-4"></i>
+            <span class="fs-5 fw-bold">Find<span class="text-primary">It</span></span>
+          </div>
+          <p class="small text-muted mb-3">
+            The official campus lost and found portal designed to help students, faculty, and campus security quickly report, find, and reclaim lost personal belongings.
+          </p>
+          <div class="d-flex gap-2">
+            <span class="badge bg-secondary">Campus Safe</span>
+            <span class="badge bg-secondary">Verified Claims</span>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+          <ul class="list-unstyled small mb-0">
+            <li class="mb-2"><a href="preview.html">Home</a></li>
+            <li class="mb-2"><a href="preview-report.html">Report Item</a></li>
+            <li class="mb-2"><a href="preview-login.html">Login</a></li>
+            <li class="mb-2"><a href="preview-register.html">Register</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Popular Categories</h6>
+          <ul class="list-unstyled small mb-0">
+            <li class="mb-2"><a href="templates/browse.html?category=Electronics">Electronics &amp; Chargers</a></li>
+            <li class="mb-2"><a href="templates/browse.html?category=Documents%20%2F%20ID%20Cards">College ID Cards &amp; Wallets</a></li>
+            <li class="mb-2"><a href="templates/browse.html?category=Keys">Keys &amp; Keychains</a></li>
+            <li class="mb-2"><a href="templates/browse.html?category=Books%20%2F%20Stationery">Books &amp; Calculators</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Campus Helpdesk</h6>
+          <p class="small text-muted mb-2">
+            <i class="bi bi-building me-2"></i> Campus Security Main Office, Room 102
+          </p>
+          <p class="small text-muted mb-2">
+            <i class="bi bi-envelope me-2"></i> lostandfound@college.edu
+          </p>
+          <p class="small text-muted mb-0">
+            <i class="bi bi-clock me-2"></i> Mon - Fri: 9:00 AM - 5:00 PM
+          </p>
+        </div>
+      </div>
+
+      <div class="border-top border-secondary pt-3 text-center small text-muted">
+        &copy; 2026 FindIt – Campus Lost &amp; Found Portal. Built with HTML, CSS, JavaScript, and Bootstrap 5.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Main Global JavaScript -->
+  <script src="static/js/main.js"></script>
+
+  <!-- Client-Side Form Validation Script for Preview -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const reportForm = document.getElementById("reportForm");
+      if (!reportForm) return;
+
+      const itemNameInput = document.getElementById("item_name");
+      const categorySelect = document.getElementById("category");
+      const dateInput = document.getElementById("date_lost_found");
+      const locationInput = document.getElementById("location");
+      const descriptionTextarea = document.getElementById("item_description");
+      const termsCheck = document.getElementById("reportVerificationCheck");
+
+      // Prevent selecting future dates
+      if (dateInput) {
+        const today = new Date().toISOString().split("T")[0];
+        dateInput.setAttribute("max", today);
+      }
+
+      function validateItemName() {
+        const isValid = itemNameInput.value.trim().length >= 2;
+        setFieldState(itemNameInput, isValid);
+        return isValid;
+      }
+
+      function validateCategory() {
+        const isValid = categorySelect.value !== "";
+        setFieldState(categorySelect, isValid);
+        return isValid;
+      }
+
+      function validateDate() {
+        const isValid = dateInput.value !== "";
+        setFieldState(dateInput, isValid);
+        return isValid;
+      }
+
+      function validateLocation() {
+        const isValid = locationInput.value.trim().length >= 3;
+        setFieldState(locationInput, isValid);
+        return isValid;
+      }
+
+      function validateDescription() {
+        const isValid = descriptionTextarea.value.trim().length >= 10;
+        setFieldState(descriptionTextarea, isValid);
+        return isValid;
+      }
+
+      function validateTerms() {
+        const isValid = termsCheck.checked;
+        setFieldState(termsCheck, isValid);
+        return isValid;
+      }
+
+      function setFieldState(input, isValid) {
+        if (isValid) {
+          input.classList.remove("is-invalid");
+          input.classList.add("is-valid");
+        } else {
+          input.classList.remove("is-valid");
+          input.classList.add("is-invalid");
+        }
+      }
+
+      itemNameInput.addEventListener("input", validateItemName);
+      categorySelect.addEventListener("change", validateCategory);
+      dateInput.addEventListener("change", validateDate);
+      locationInput.addEventListener("input", validateLocation);
+      descriptionTextarea.addEventListener("input", validateDescription);
+      termsCheck.addEventListener("change", validateTerms);
+
+      reportForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const isNameOk = validateItemName();
+        const isCatOk = validateCategory();
+        const isDateOk = validateDate();
+        const isLocOk = validateLocation();
+        const isDescOk = validateDescription();
+        const isTermsOk = validateTerms();
+
+        const isAllValid = isNameOk && isCatOk && isDateOk && isLocOk && isDescOk && isTermsOk;
+
+        if (!isAllValid) {
+          const firstInvalid = reportForm.querySelector(".is-invalid");
+          if (firstInvalid) firstInvalid.focus();
+        } else {
+          const reportType = document.querySelector("input[name='item_type']:checked").value;
+          alert(`Success! [DEMO PREVIEW]\n\nYour ${reportType} item report for "${itemNameInput.value.trim()}" has been submitted successfully.`);
+          reportForm.reset();
+          const previewImg = document.getElementById("imagePreview");
+          const placeholder = document.getElementById("placeholderPreview");
+          const removeBtn = document.getElementById("removeImageBtn");
+          if (previewImg) previewImg.classList.add("d-none");
+          if (placeholder) placeholder.classList.remove("d-none");
+          if (removeBtn) removeBtn.classList.add("d-none");
+          document.querySelectorAll(".is-valid").forEach(el => el.classList.remove("is-valid"));
+        }
+      });
+    });
+  </script>
+</body>
+</html>

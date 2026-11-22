@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Details - FindIt Campus Lost & Found</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons 1.11.3 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom Stylesheet (Static Asset) -->
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+  <!-- =======================================================================
+       Navigation Bar (FindIt Brand)
+       ======================================================================= -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-2">
+    <div class="container">
+      <a class="navbar-brand navbar-brand-custom" href="preview.html">
+        <i class="bi bi-geo-alt-fill text-primary"></i>
+        <span>Find<span class="text-primary">It</span></span>
+        <span class="brand-badge d-none d-sm-inline">Campus Portal</span>
+      </a>
+
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+          <li class="nav-item">
+            <a class="nav-link" href="preview.html">
+              <i class="bi bi-house-door me-1"></i> Home
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="preview-browse.html">
+              <i class="bi bi-search me-1"></i> Browse Items
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="preview-report.html">
+              <i class="bi bi-plus-circle me-1"></i> Report Item
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="preview-my-claims.html">
+              <i class="bi bi-card-checklist me-1"></i> My Claims
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="templates/admin-dashboard.html">
+              <i class="bi bi-shield-lock me-1"></i> Admin
+            </a>
+          </li>
+        </ul>
+
+        <!-- Right Side Auth Links -->
+        <div class="d-flex align-items-center gap-2">
+          <a href="preview-login.html" class="btn btn-outline-primary btn-sm px-3">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Login
+          </a>
+          <a href="preview-register.html" class="btn btn-primary btn-sm px-3">
+            <i class="bi bi-person-plus me-1"></i> Register
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =======================================================================
+       Main Item Details Content
+       ======================================================================= -->
+  <main class="py-4">
+    <div class="container">
+      <!-- Back navigation breadcrumb & Back to Browse button -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="preview.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="preview-browse.html">Browse Items</a></li>
+            <li class="breadcrumb-item active" aria-current="page" id="breadcrumbTitle">Item Details</li>
+          </ol>
+        </nav>
+        <a href="preview-browse.html" class="btn btn-outline-secondary btn-sm px-3">
+          <i class="bi bi-arrow-left me-1"></i> Back to Browse
+        </a>
+      </div>
+
+      <!-- Success Notification Alert (Triggered on Claim Submission) -->
+      <div id="claimSuccessAlert" class="alert alert-success alert-dismissible fade show d-none shadow-sm mb-4" role="alert">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-check-circle-fill fs-4 text-success"></i>
+          <div>
+            <strong id="claimSuccessHeading">Claim Submitted Successfully!</strong>
+            <p class="mb-0 small" id="claimSuccessMessage">
+              Your ownership claim and proof details have been sent to Campus Security for review. You can track this in "My Claims".
+            </p>
+          </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+      <div class="row g-4">
+        <!-- 1. Prominent Item Image Section -->
+        <div class="col-lg-5">
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden p-3 bg-white h-100 d-flex flex-column">
+            <div class="image-preview-box rounded-3 flex-grow-1" style="min-height: 340px; max-height: 420px;">
+              <img 
+                id="detailImage" 
+                src="static/images/placeholder.svg" 
+                alt="Item Photo" 
+                class="img-fluid rounded">
+            </div>
+            <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-3 text-muted small">
+              <span><i class="bi bi-camera me-1"></i> Verified Item Photo</span>
+              <span class="badge bg-light text-secondary border">
+                <i class="bi bi-shield-check text-primary me-1"></i> Admin Inspected
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Detailed Item Information Section -->
+        <div class="col-lg-7">
+          <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100 d-flex flex-column">
+            
+            <!-- Status Badge, Category & ID Row -->
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+              <span id="detailBadge" class="badge-found fs-6">
+                <i class="bi bi-check-circle me-1" id="detailBadgeIcon"></i> <span id="detailType">Found Item</span>
+              </span>
+              <span id="detailCategory" class="category-pill">Documents / ID Cards</span>
+              <span class="badge bg-light text-muted border ms-auto small" id="detailId">ID #FIND-1002</span>
+            </div>
+
+            <!-- 3. Item Name -->
+            <h2 id="detailTitle" class="fw-bold text-dark mb-3">
+              Student ID Card &amp; Metro Pass
+            </h2>
+
+            <!-- 4. Key Meta Attributes (Location & Date) -->
+            <div class="row g-3 py-3 border-top border-bottom my-2 bg-light-subtle rounded-3 p-2">
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center gap-2 text-muted small">
+                  <i class="bi bi-geo-alt-fill text-primary fs-5"></i>
+                  <div>
+                    <div class="text-muted">Campus Location</div>
+                    <strong id="detailLocation" class="text-dark">Cafeteria Counter 3</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="d-flex align-items-center gap-2 text-muted small">
+                  <i class="bi bi-calendar-event text-primary fs-5"></i>
+                  <div>
+                    <div class="text-muted">Date Reported</div>
+                    <strong id="detailDate" class="text-dark">November 21, 2026</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Complete Item Description -->
+            <div class="my-3">
+              <h5 class="fw-bold text-dark mb-2">Item Description</h5>
+              <p id="detailDesc" class="text-muted leading-relaxed mb-0">
+                College ID Card belonging to CS Department along with a blue metro smart card inside a transparent holder with college lanyard.
+              </p>
+            </div>
+
+            <!-- 6. Reported By Information Section (Using Mock Data) -->
+            <div class="card border bg-light-subtle rounded-3 p-3 my-2">
+              <div class="d-flex align-items-center gap-3">
+                <div class="stat-icon bg-primary-subtle text-primary" style="width: 44px; height: 44px;">
+                  <i class="bi bi-person-badge fs-5"></i>
+                </div>
+                <div class="flex-grow-1">
+                  <div class="d-flex align-items-center gap-2">
+                    <strong class="text-dark" id="reporterName">Sunita Rao</strong>
+                    <span class="badge bg-success-subtle text-success small py-1">
+                      <i class="bi bi-patch-check-fill me-1"></i> Verified Campus Member
+                    </span>
+                  </div>
+                  <div class="small text-muted" id="reporterDept">
+                    Campus Staff &bull; Cafeteria Administration
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Campus Handover Notice -->
+            <div class="alert alert-info py-2 px-3 small d-flex align-items-center gap-2 mb-4">
+              <i class="bi bi-info-circle-fill fs-5 text-primary"></i>
+              <div>
+                <strong>Campus Handover Notice:</strong> Found property is retained in custody at <em>Campus Security Desk (Room 102)</em>. Valid ID is mandatory for claiming.
+              </div>
+            </div>
+
+            <!-- 7. Action Buttons (Claim This Item & Back to Browse) -->
+            <div class="mt-auto d-flex flex-wrap gap-2 pt-2 border-top">
+              <button 
+                type="button" 
+                id="claimItemBtn" 
+                class="btn btn-primary px-4 py-2 fw-semibold shadow-sm" 
+                data-bs-toggle="modal" 
+                data-bs-target="#claimModal">
+                <i class="bi bi-hand-index-thumb me-1"></i> Claim This Item
+              </button>
+              
+              <a href="preview-browse.html" class="btn btn-outline-secondary px-3 py-2">
+                <i class="bi bi-arrow-left me-1"></i> Back to Browse
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- =======================================================================
+       8. Professional Claim Modal (Contains exact database field: claim_message)
+       ======================================================================= -->
+  <div class="modal fade" id="claimModal" tabindex="-1" aria-labelledby="claimModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title fw-bold text-dark" id="claimModalLabel">
+            <i class="bi bi-shield-check text-primary me-2"></i> Submit Ownership Claim
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form id="claimForm" novalidate>
+          <div class="modal-body p-4">
+            <p class="text-muted small mb-3">
+              To prevent wrongful claims, please describe identifying marks, contents, or serial numbers that prove you own this item.
+            </p>
+
+            <!-- Exact database field: claim_message -->
+            <div class="mb-3">
+              <label for="claim_message" class="form-label fw-semibold">
+                Proof / Identifying Details <span class="text-danger">*</span>
+              </label>
+              <textarea 
+                class="form-control" 
+                id="claim_message" 
+                name="claim_message" 
+                rows="4" 
+                placeholder="e.g. Roll number on card is CS-2024-042, signature on back, or describe wallpaper/stickers..." 
+                required></textarea>
+              <div class="invalid-feedback" id="claimMessageFeedback">
+                Please provide identifying proof (minimum 10 characters).
+              </div>
+              <div class="form-text text-muted small">
+                This message will be reviewed by campus security before approving physical handover.
+              </div>
+            </div>
+
+            <!-- Honor Code Certification -->
+            <div class="form-check small text-muted">
+              <input class="form-check-input" type="checkbox" id="claimHonorCheck" required>
+              <label class="form-check-label" for="claimHonorCheck">
+                I certify under the campus honor code that I am the rightful owner of this property.
+              </label>
+              <div class="invalid-feedback" id="honorCheckFeedback">
+                You must certify ownership before submitting.
+              </div>
+            </div>
+          </div>
+
+          <!-- 10. Submit Claim & Cancel Buttons -->
+          <div class="modal-footer border-top bg-light-subtle">
+            <button type="button" class="btn btn-secondary btn-sm px-3" data-bs-dismiss="modal">
+              Cancel
+            </button>
+            <button type="submit" id="submitClaimBtn" class="btn btn-primary btn-sm px-4 fw-semibold shadow-sm">
+              <i class="bi bi-send me-1"></i> Submit Claim
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       Footer (FindIt Theme)
+       ======================================================================= -->
+  <footer>
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-2 text-white">
+            <i class="bi bi-geo-alt-fill text-primary fs-4"></i>
+            <span class="fs-5 fw-bold">Find<span class="text-primary">It</span></span>
+          </div>
+          <p class="small text-muted mb-3">
+            The official campus lost and found portal designed to help students, faculty, and campus security quickly report, find, and reclaim lost personal belongings.
+          </p>
+          <div class="d-flex gap-2">
+            <span class="badge bg-secondary">Campus Safe</span>
+            <span class="badge bg-secondary">Verified Claims</span>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+          <ul class="list-unstyled small mb-0">
+            <li class="mb-2"><a href="preview.html">Home</a></li>
+            <li class="mb-2"><a href="preview-browse.html">Browse Items</a></li>
+            <li class="mb-2"><a href="preview-report.html">Report Item</a></li>
+            <li class="mb-2"><a href="preview-login.html">Login</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Popular Categories</h6>
+          <ul class="list-unstyled small mb-0">
+            <li class="mb-2"><a href="preview-browse.html?category=Electronics">Electronics &amp; Chargers</a></li>
+            <li class="mb-2"><a href="preview-browse.html?category=Documents%20%2F%20ID%20Cards">College ID Cards &amp; Wallets</a></li>
+            <li class="mb-2"><a href="preview-browse.html?category=Keys">Keys &amp; Keychains</a></li>
+            <li class="mb-2"><a href="preview-browse.html?category=Books%20%2F%20Stationery">Books &amp; Calculators</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <h6 class="text-white fw-bold mb-3">Campus Helpdesk</h6>
+          <p class="small text-muted mb-2">
+            <i class="bi bi-building me-2"></i> Campus Security Main Office, Room 102
+          </p>
+          <p class="small text-muted mb-2">
+            <i class="bi bi-envelope me-2"></i> lostandfound@college.edu
+          </p>
+          <p class="small text-muted mb-0">
+            <i class="bi bi-clock me-2"></i> Mon - Fri: 9:00 AM - 5:00 PM
+          </p>
+        </div>
+      </div>
+
+      <div class="border-top border-secondary pt-3 text-center small text-muted">
+        &copy; 2026 FindIt – Campus Lost &amp; Found Portal. Built with HTML, CSS, JavaScript, and Bootstrap 5.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Mock Data for Local Preview -->
+  <script src="static/js/mock-data.js"></script>
+  <!-- Main Global JavaScript -->
+  <script src="static/js/main.js"></script>
+
+  <!-- Interactive Dynamic Loading & Claim Validation Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Read URL query param ?id=... (defaults to Item #2: Found Student ID Card)
+      const urlParams = new URLSearchParams(window.location.search);
+      const itemId = parseInt(urlParams.get("id")) || 2;
+
+      // Find item in MOCK_ITEMS
+      const item = MOCK_ITEMS.find((it) => it.id === itemId) || MOCK_ITEMS[1];
+
+      if (item) {
+        document.title = `${item.item_name} - FindIt Campus Lost & Found`;
+        document.getElementById("breadcrumbTitle").textContent = item.item_name;
+        document.getElementById("detailTitle").textContent = item.item_name;
+        document.getElementById("detailCategory").textContent = item.category;
+        document.getElementById("detailLocation").textContent = item.location;
+        document.getElementById("detailDate").textContent = item.date_lost_found;
+        document.getElementById("detailDesc").textContent = item.item_description;
+        document.getElementById("detailId").textContent = `ID #FIND-${1000 + item.id}`;
+
+        const badge = document.getElementById("detailBadge");
+        const badgeIcon = document.getElementById("detailBadgeIcon");
+        const typeText = document.getElementById("detailType");
+        const claimBtn = document.getElementById("claimItemBtn");
+
+        if (item.item_type === "Lost") {
+          badge.className = "badge-lost fs-6";
+          badgeIcon.className = "bi bi-question-circle me-1";
+          typeText.textContent = "Lost Item";
+          if (claimBtn) {
+            claimBtn.innerHTML = '<i class="bi bi-hand-thumbs-up me-1"></i> I Found This Item / Notify Owner';
+            claimBtn.className = "btn btn-outline-danger px-4 py-2 fw-semibold shadow-sm";
+          }
+        } else {
+          badge.className = "badge-found fs-6";
+          badgeIcon.className = "bi bi-check-circle me-1";
+          typeText.textContent = "Found Item";
+          if (claimBtn) {
+            claimBtn.innerHTML = '<i class="bi bi-hand-index-thumb me-1"></i> Claim This Item';
+            claimBtn.className = "btn btn-primary px-4 py-2 fw-semibold shadow-sm";
+          }
+        }
+
+        // Reporter info
+        if (item.reported_by) {
+          document.getElementById("reporterName").textContent = item.reported_by.name;
+          document.getElementById("reporterDept").textContent = `${item.reported_by.role} • ${item.reported_by.department}`;
+        }
+      }
+
+      // 2. Claim Modal Submission & Validation
+      const claimForm = document.getElementById("claimForm");
+      const claimMessageInput = document.getElementById("claim_message");
+      const honorCheck = document.getElementById("claimHonorCheck");
+      const claimModalEl = document.getElementById("claimModal");
+      const claimSuccessAlert = document.getElementById("claimSuccessAlert");
+      const claimSuccessMessage = document.getElementById("claimSuccessMessage");
+
+      claimForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let isValid = true;
+
+        // Validation for claim_message (minimum 10 characters)
+        if (!claimMessageInput.value.trim() || claimMessageInput.value.trim().length < 10) {
+          claimMessageInput.classList.add("is-invalid");
+          isValid = false;
+        } else {
+          claimMessageInput.classList.remove("is-invalid");
+          claimMessageInput.classList.add("is-valid");
+        }
+
+        // Validation for honor checkbox
+        if (!honorCheck.checked) {
+          honorCheck.classList.add("is-invalid");
+          isValid = false;
+        } else {
+          honorCheck.classList.remove("is-invalid");
+          honorCheck.classList.add("is-valid");
+        }
+
+        if (isValid) {
+          // Close modal
+          const modalInstance = bootstrap.Modal.getInstance(claimModalEl);
+          if (modalInstance) modalInstance.hide();
+
+          // Show prominent success notification banner
+          if (claimSuccessAlert) {
+            claimSuccessMessage.textContent = `Your ownership claim for "${item.item_name}" has been logged and sent to Campus Security Desk (Room 102) for verification.`;
+            claimSuccessAlert.classList.remove("d-none");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+
+          // Reset form
+          claimForm.reset();
+          claimMessageInput.classList.remove("is-valid");
+          honorCheck.classList.remove("is-valid");
+        }
+      });
+
+      claimMessageInput.addEventListener("input", () => {
+        if (claimMessageInput.value.trim().length >= 10) {
+          claimMessageInput.classList.remove("is-invalid");
+          claimMessageInput.classList.add("is-valid");
+        }
+      });
+
+      honorCheck.addEventListener("change", () => {
+        if (honorCheck.checked) {
+          honorCheck.classList.remove("is-invalid");
+          honorCheck.classList.add("is-valid");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
