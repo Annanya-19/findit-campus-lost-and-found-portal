@@ -5,16 +5,17 @@ import sqlite3
 import uuid
 from datetime import datetime
 
-from flask import (
-    Flask, request, jsonify, session,
-    render_template, url_for, redirect
-)
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from database import get_db_connection, create_tables
 
+from flask import (
+    Flask, request, jsonify, session,
+    render_template, url_for, redirect,
+    send_from_directory
+)
 
 # ==========================================
 # CONFIGURATION
@@ -24,13 +25,23 @@ ADMIN_EMAIL = "admin@findit.com"
 ADMIN_PASSWORD = "FindItAdmin@123"
 
 app = Flask(__name__)
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
+
+DATA_DIR = (
+    os.environ.get("RAILWAY_VOLUME_MOUNT_PATH")
+    or os.environ.get("DATA_DIR")
+)
+
+if DATA_DIR:
+    UPLOAD_FOLDER = os.path.join(DATA_DIR, "uploads")
+else:
+    UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 # Demo-only settings. Change before any public deployment.
@@ -92,10 +103,19 @@ def admin_required():
     return None
 
 
+
 def item_image_url(image):
     if image:
-        return url_for("static", filename=f"uploads/{image}")
+        return url_for("uploaded_file", filename=image)
     return None
+# ADD THIS ROUTE HERE
+@app.route("/uploads/<filename>")
+def uploaded_file(filename):
+    return send_from_directory(
+        app.config["UPLOAD_FOLDER"],
+        filename
+    )
+
 
 
 # ==========================================
